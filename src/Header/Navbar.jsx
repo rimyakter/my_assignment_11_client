@@ -33,7 +33,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="header border-b border-white text-white bg-[#073b4c] shadow-md w-full sticky top-0 z-50"
+      className="nav header border-b border-white text-white bg-[#023047] shadow-md w-full sticky top-0 z-50"
       data-aos="fade-down"
     >
       <div className="w-11/12 mx-auto py-4 flex items-center justify-between">
@@ -53,6 +53,7 @@ const Navbar = () => {
           data-aos-delay="200"
         >
           <NavLink to="/">Home</NavLink>
+          <NavLink to="/categories">Categories</NavLink>
         </div>
 
         {/* Mobile Hamburger Icon */}
@@ -99,10 +100,16 @@ const Navbar = () => {
           ) : (
             <>
               <div className="flex space-x-1">
-                <Link to="/login" className="btn btn-sm bg-white text-black">
+                <Link
+                  to="/login"
+                  className="btn btn-sm bg-white text-black shadow-none"
+                >
                   Login
                 </Link>{" "}
-                <Link to="/register" className="btn btn-sm bg-white text-black">
+                <Link
+                  to="/register"
+                  className="btn btn-sm bg-white text-black shadow-none"
+                >
                   Register
                 </Link>{" "}
               </div>
@@ -114,12 +121,19 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <div
-          className="md:hidden bg-[#1e1e2f] text-white px-6 py-4 space-y-3"
+          className="md:hidden bg-[#023047] text-white px-6 py-4 space-y-3"
           data-aos="fade-in"
           data-aos-duration="500"
         >
           <NavLink to="/" onClick={() => setMenuOpen(false)} className="block">
             Home
+          </NavLink>
+          <NavLink
+            to="/categories"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            Categories
           </NavLink>
 
           <div className="pt-4 border-t border-base-300">
@@ -156,9 +170,12 @@ const Navbar = () => {
                   Login
                 </Link>
                 <div className="mt-2">
-                  <Link to="/login" onClick={() => setMenuOpen(false)}>
-                    <SocialLogin />
-                  </Link>
+                  <Link
+                    to="/register"
+                    className="btn btn-sm bg-white text-black shadow-none w-full"
+                  >
+                    Register
+                  </Link>{" "}
                 </div>
               </>
             )}

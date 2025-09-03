@@ -78,7 +78,7 @@ const SwiperSlider = () => {
                 </p>
                 <Link
                   to={slide.buttonLink}
-                  className="bg-[#eb5e28] hover:bg-blue-700 transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base"
+                  className="bg-[#eb5e28] hover:bg-[#eb5f28d8] transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base"
                 >
                   {slide.buttonText}
                 </Link>
