@@ -6,7 +6,6 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 import Swal from "sweetalert2";
 import { AuthContext } from "../Context/AuthContext";
-import SocialLogin from "../Pages/SocialLogin";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -54,6 +53,8 @@ const Navbar = () => {
         >
           <NavLink to="/">Home</NavLink>
           <NavLink to="/categories">Categories</NavLink>
+          <NavLink to="/all-products">AllProducts</NavLink>
+          <NavLink to="/add-product">AddProduct</NavLink>
         </div>
 
         {/* Mobile Hamburger Icon */}
