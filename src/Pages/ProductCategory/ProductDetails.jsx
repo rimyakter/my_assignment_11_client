@@ -60,6 +60,7 @@ export default function ProductDetails() {
       });
 
       document.getElementById("buy_modal").close();
+      navigate(`/cart/${user.email}`);
     } catch (err) {
       Swal.fire("Error", "Something went wrong", "error");
     }
@@ -90,9 +91,11 @@ export default function ProductDetails() {
           <p className="text-gray-600 mt-2">Brand: {product.brand}</p>
           <p className="text-gray-700 mt-2">{product.description}</p>
           <p className="font-bold text-2xl mt-4">${product.price}</p>
-          <p className="font-bold text-2xl mt-4">{product.mainQuantity}</p>
+          <p className="font-bold text-lg mt-4">
+            Total Quantity: {product.mainQuantity}
+          </p>
           <p className="text-sm text-gray-500 mt-2">
-            Minimum Quantity: {product.minQty}
+            Minimum Quantity for Order: {product.minQty}
           </p>
 
           {/* Buy button */}

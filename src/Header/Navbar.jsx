@@ -55,6 +55,9 @@ const Navbar = () => {
           <NavLink to="/categories">Categories</NavLink>
           <NavLink to="/all-products">AllProducts</NavLink>
           <NavLink to="/add-product">AddProduct</NavLink>
+          <NavLink to="/myProducts">MyProducts</NavLink>
+          {user && <NavLink to={`/cart/${user.email}`}>Cart</NavLink>}
+          {/* <NavLink to={`/cart/${user.email}`}>Cart</NavLink> */}
         </div>
 
         {/* Mobile Hamburger Icon */}

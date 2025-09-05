@@ -11,6 +11,8 @@ import ErrorPage from "../Pages/ErrorPage";
 import AllProducts from "../Pages/AllProducts";
 import UpdateProduct from "../Pages/Footer/UpdateProduct";
 import AddProduct from "../Pages/AddProduct";
+import CartPage from "../Pages/CartPage";
+import MyProducts from "../Pages/MyProducts";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +63,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddProduct></AddProduct>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/cart/:email",
+        element: (
+          <PrivateRoute>
+            <CartPage></CartPage>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/myProducts",
+        element: (
+          <PrivateRoute>
+            <MyProducts></MyProducts>
           </PrivateRoute>
         ),
       },
