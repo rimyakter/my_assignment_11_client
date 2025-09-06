@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "@dr.pogodin/react-helmet";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -70,6 +71,9 @@ const AddProduct = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6">
+      <Helmet>
+        <title>B2B Wholesale || Add Product</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-4">Add Product</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">

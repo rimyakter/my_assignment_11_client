@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "@dr.pogodin/react-helmet";
 
 export default function MyProducts() {
   const navigate = useNavigate();
@@ -18,6 +19,9 @@ export default function MyProducts() {
 
   return (
     <div className="p-6">
+      <Helmet>
+        <title>B2B Wholesale || My Products</title>
+      </Helmet>
       <h1 className="text-3xl font-bold mb-6">My Products</h1>
 
       {products.length === 0 ? (

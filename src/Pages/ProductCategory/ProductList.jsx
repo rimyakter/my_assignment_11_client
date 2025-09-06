@@ -27,16 +27,25 @@ export default function ProductList() {
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {products.map((product) => (
-          <div key={product._id} className="bg-white rounded-2xl shadow-lg p-4">
+          <div
+            key={product._id}
+            className="bg-white rounded-2xl shadow-lg p-4 space-y-2"
+          >
             <img
               src={product.image}
               alt={product.name}
               className="rounded-xl h-40 w-full object-cover"
             />
             <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
+            <p className="text-sm text-gray-600">
+              Category Name: {product.category}
+            </p>
             <p className="text-sm text-gray-600">Brand Name: {product.brand}</p>
+            <p className="text-sm text-gray-600">
+              Product Total Quantity: {product.mainQuantity}
+            </p>
             <p className="text-sm text-gray-500">
-              Min Quantity: {product.minQty}
+              Minimum Quantity: {product.minQty}
             </p>
             <p className="text-gray-700">{product.description}</p>
             <p className="font-bold text-lg mt-2">${product.price}</p>

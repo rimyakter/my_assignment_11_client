@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { FiTrash2 } from "react-icons/fi";
 import { AuthContext } from "../Context/AuthContext";
+import { Helmet } from "@dr.pogodin/react-helmet";
 
 export default function CartPage() {
   const { user } = useContext(AuthContext);
@@ -27,6 +28,9 @@ export default function CartPage() {
 
   return (
     <div className="p-6">
+      <Helmet>
+        <title>B2B Wholesale || Cart Page</title>
+      </Helmet>
       <h1 className="text-3xl font-bold my-6 text-[#eb5e28]">🛒 My Orders</h1>
 
       {cartItems.length === 0 ? (

@@ -16,7 +16,7 @@ const slides = [
     titleWords: ["Welcome to B2B Wholesale", "Find Your Products easily"],
     subtitle: "We have a special offer for our new customer in first purchase",
     buttonText: "Buy Now",
-    buttonLink: "/",
+    buttonLink: "/categories",
   },
   {
     image: slider2,
@@ -24,14 +24,14 @@ const slides = [
     subtitle:
       "We search for good products and provide good services through years",
     buttonText: "Explore More",
-    buttonLink: "/",
+    buttonLink: "/all-products",
   },
   {
     image: slider3,
     titleWords: ["Sale! Sale! Sale!", "Friday Sale Up to 50%"],
     subtitle: "We have a lot of different products on sale every weekend",
     buttonText: "See More",
-    buttonLink: "/",
+    buttonLink: "/add-product",
   },
 ];
 
