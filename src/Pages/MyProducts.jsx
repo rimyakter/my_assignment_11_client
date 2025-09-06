@@ -2,8 +2,8 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
-import Swal from "sweetalert2";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import ReactStars from "react-stars";
 
 export default function MyProducts() {
   const navigate = useNavigate();
@@ -40,7 +40,15 @@ export default function MyProducts() {
               <p className="text-gray-600 text-sm">Brand: {p.brand}</p>
               <p className="text-gray-500 text-sm">Category: {p.category}</p>
               <p className="text-gray-500 text-sm">Price: ${p.price}</p>
-              <p className="text-gray-500 text-sm">Rating: {p.rating || 0}</p>
+
+              <ReactStars
+                count={5}
+                value={Number(p.rating) || 0}
+                size={24}
+                edit={false}
+                half={true}
+                color2={"#ffd700"} // gold stars
+              />
               <p className="text-gray-700 text-sm">
                 Quantity: {p.mainQuantity}
               </p>

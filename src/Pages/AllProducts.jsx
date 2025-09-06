@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import ReactStars from "react-stars";
 
 export default function AllProducts() {
   const navigate = useNavigate();
@@ -67,7 +68,14 @@ export default function AllProducts() {
               <p className="text-gray-600">Brand: {p.brand}</p>
               <p className="text-gray-500">Category: {p.category}</p>
               <p className="text-gray-500">Price: ${p.price}</p>
-              <p className="text-gray-500">Rating: {p.rating || 0}</p>
+              <ReactStars
+                count={5}
+                value={Number(p.rating) || 0}
+                size={24}
+                edit={false}
+                half={true}
+                color2={"#ffd700"} // gold stars
+              />
               <p className="text-gray-500">Total Quantity: {p.mainQuantity}</p>
               <p className="text-gray-700">Min. Selling Qty: {p.minQty}</p>
               <button

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
+import ReactStars from "react-stars";
 
 export default function ProductList() {
   const { id } = useParams(); // category id
@@ -49,11 +50,15 @@ export default function ProductList() {
             </p>
             <p className="text-gray-700">{product.description}</p>
             <p className="font-bold text-lg mt-2">${product.price}</p>
-            <div className="flex items-center mt-1">
-              <span className="text-sm text-gray-600 ml-2">
-                {product.rating || 0}
-              </span>
-            </div>
+            {/* Rating with stars */}
+            <ReactStars
+              count={5}
+              value={Number(product.rating) || 0}
+              size={24}
+              edit={false}
+              half={true}
+              color2={"#ffd700"} // gold stars
+            />
 
             <button
               onClick={() => navigate(`/product/${product._id}`)}
