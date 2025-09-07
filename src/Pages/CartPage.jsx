@@ -4,6 +4,7 @@ import axios from "axios";
 import { FiTrash2 } from "react-icons/fi";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import Swal from "sweetalert2";
 
 export default function CartPage() {
   const { user } = useContext(AuthContext);
@@ -21,6 +22,13 @@ export default function CartPage() {
     try {
       await axios.delete(`http://localhost:3000/cart/${orderId}`);
       setCartItems((prev) => prev.filter((item) => item._id !== orderId));
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "You cancel order successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (err) {
       console.error("Error removing cart item:", err);
     }
