@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
+import Swal from "sweetalert2";
 
 export default function UpdateProduct() {
   const { id } = useParams();
@@ -47,6 +48,13 @@ export default function UpdateProduct() {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:3000/products/${id}`, formData);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "You Updated Data Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
       navigate("/all-products");
     } catch (err) {
       console.error(err);
