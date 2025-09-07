@@ -64,8 +64,13 @@ const AddProduct = () => {
         });
       }
     } catch (err) {
-      console.error(err);
-      alert("⚠️ Something went wrong");
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed! Try Again!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 

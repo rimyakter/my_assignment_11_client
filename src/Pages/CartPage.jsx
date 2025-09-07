@@ -30,7 +30,13 @@ export default function CartPage() {
         timer: 1500,
       });
     } catch (err) {
-      console.error("Error removing cart item:", err);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed! Try Again",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 

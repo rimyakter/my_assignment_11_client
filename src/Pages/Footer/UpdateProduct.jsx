@@ -57,7 +57,13 @@ export default function UpdateProduct() {
       });
       navigate("/all-products");
     } catch (err) {
-      console.error(err);
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed! try again",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
