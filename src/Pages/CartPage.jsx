@@ -31,7 +31,9 @@ export default function CartPage() {
       <Helmet>
         <title>B2B Wholesale || Cart Page</title>
       </Helmet>
-      <h1 className="text-3xl font-bold my-6 text-[#eb5e28]">🛒 My Orders</h1>
+      <h1 className="text-3xl font-bold my-6 text-[#eb5e28]">
+        🛒 My Orders Page
+      </h1>
 
       {cartItems.length === 0 ? (
         <p className="text-lg text-gray-600">No orders found.</p>
