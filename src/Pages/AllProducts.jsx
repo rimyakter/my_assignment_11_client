@@ -88,7 +88,7 @@ export default function AllProducts() {
           ))}
         </div>
       ) : (
-        // Table View
+        // Always Table View (scrollable on mobile)
         <div className="overflow-x-auto">
           <table className="table w-full border">
             <thead className="bg-gray-100">
