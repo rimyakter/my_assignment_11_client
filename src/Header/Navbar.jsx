@@ -139,6 +139,36 @@ const Navbar = () => {
           >
             Categories
           </NavLink>
+          <NavLink
+            to="/all-products"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            All-Products
+          </NavLink>
+          <NavLink
+            to="/add-product"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            Add-Product
+          </NavLink>
+          <NavLink
+            to="/myProducts"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            MyProducts
+          </NavLink>
+          {user && (
+            <NavLink
+              to={`/cart/${user.email}`}
+              onClick={() => setMenuOpen(false)}
+              className="block"
+            >
+              Cart
+            </NavLink>
+          )}
 
           <div className="pt-4 border-t border-base-300">
             {user ? (
