@@ -22,7 +22,7 @@ export default function MyProducts() {
       <Helmet>
         <title>B2B Wholesale || My Products</title>
       </Helmet>
-      <h1 className="text-3xl font-bold mb-6">My Products</h1>
+      <h1 className="text-3xl font-bold mb-6">My Added Products</h1>
 
       {products.length === 0 ? (
         <p className="text-gray-600">You haven’t added any products yet.</p>
