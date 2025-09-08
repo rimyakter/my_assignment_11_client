@@ -54,17 +54,19 @@ const Login = () => {
           email: user.email,
           photo: user.photoURL,
         };
-        axios.post("http://localhost:3000/users", saveUser).then((res) => {
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Google Login Successful",
-            showConfirmButton: false,
-            timer: 1000,
+        axios
+          .post(`${import.meta.env.VITE_API_URL}/users`, saveUser)
+          .then((res) => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Google Login Successful",
+              showConfirmButton: false,
+              timer: 1000,
+            });
+            //navigate user after use private route
+            navigate(from);
           });
-          //navigate user after use private route
-          navigate(from);
-        });
       })
       .catch(() => {
         Swal.fire({

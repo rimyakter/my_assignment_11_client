@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReactStars from "react-stars";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function AllProducts() {
   const navigate = useNavigate();
@@ -11,13 +12,15 @@ export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [showAvailableOnly, setShowAvailableOnly] = useState(false); // filter toggle
   const [view, setView] = useState("card"); // view toggle (card / table)
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/products")
+    axiosSecure
+      .get(`/products`, {})
+
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
-  }, []);
+  }, [axiosSecure]);
 
   // filtered products
   const displayedProducts = showAvailableOnly

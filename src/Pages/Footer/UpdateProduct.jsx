@@ -23,7 +23,7 @@ export default function UpdateProduct() {
   // Fetch product by ID
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/products/${id}`)
+      .get(`${import.meta.env.VITE_API_URL}/products/${id}`)
       .then((res) =>
         setFormData({
           image: res.data.image || "",
@@ -47,7 +47,10 @@ export default function UpdateProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:3000/products/${id}`, formData);
+      await axios.put(
+        `${import.meta.env.VITE_API_URL}/products/${id}`,
+        formData
+      );
       Swal.fire({
         position: "top-end",
         icon: "success",

@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.init";
+import axios from "axios";
 
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
@@ -40,7 +41,27 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log(currentUser);
+      //Post request for JWT using user email
+      //Api end-point : JWT (post method)
+      if (currentUser?.email) {
+        axios
+          .post(
+            `${import.meta.env.VITE_API_URL}/jwt`,
+            {
+              email: currentUser?.email,
+            },
+            {
+              withCredentials: true, //mandatory for store cookie in browser cookie
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            //for store token local storage method
+            // localStorage.setItem("token", res.data.token);
+          });
+      } else {
+        localStorage.removeItem("token");
+      }
 
       setLoading(false);
     });
@@ -58,6 +79,7 @@ const AuthProvider = ({ children }) => {
   //User Sign-Out method
 
   const logOut = () => {
+    localStorage.removeItem("token");
     return signOut(auth);
   };
 

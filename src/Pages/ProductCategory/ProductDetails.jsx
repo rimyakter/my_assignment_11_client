@@ -4,6 +4,7 @@ import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function ProductDetails() {
   const { user } = useContext(AuthContext);
@@ -13,16 +14,17 @@ export default function ProductDetails() {
   const [mainQuantity, setMainQuantity] = useState(1);
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/products/${productId}`)
+    axiosSecure
+      .get(`${import.meta.env.VITE_API_URL}/products/${productId}`)
       .then((res) => {
         setProduct(res.data);
         setMainQuantity(res.data.minQty || 1);
       })
       .catch((err) => console.error(err));
-  }, [productId]);
+  }, [productId, axiosSecure]);
 
   if (!product) return <p className="p-6">Product Not found</p>;
 
@@ -42,7 +44,7 @@ export default function ProductDetails() {
     }
 
     try {
-      await axios.post("http://localhost:3000/orders", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
         productId: product._id,
         quantity: mainQuantity,
         buyerName: user?.displayName,

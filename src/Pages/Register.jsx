@@ -52,18 +52,20 @@ const Register = () => {
         };
 
         // Save Profile Info in database
-        axios.post("http://localhost:3000/users", userProfile).then((res) => {
-          if (res.data.insertedId) {
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "Your Account is created",
-              showConfirmButton: false,
-              timer: 1000,
-            });
-            navigate(from);
-          }
-        });
+        axios
+          .post(`${import.meta.env.VITE_API_URL}/users`, userProfile)
+          .then((res) => {
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your Account is created",
+                showConfirmButton: false,
+                timer: 1000,
+              });
+              navigate(from);
+            }
+          });
       })
       .catch((error) => {
         Swal.fire({

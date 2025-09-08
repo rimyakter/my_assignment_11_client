@@ -4,18 +4,20 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReactStars from "react-stars";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function MyProducts() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/products?email=${user.email}`)
+    axiosSecure
+      .get(`/products?email=${user.email}`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
-  }, [user]);
+  }, [user, axiosSecure]);
 
   return (
     <div className="p-6">

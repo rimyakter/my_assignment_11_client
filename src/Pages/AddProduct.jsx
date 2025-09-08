@@ -4,10 +4,12 @@ import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -43,7 +45,7 @@ const AddProduct = () => {
         userEmail: user?.email || "anonymous",
       };
 
-      const res = await axios.post("http://localhost:3000/products", payload);
+      const res = await axiosSecure.post(`/products`, payload);
 
       if (res.status === 201 || res.status === 200) {
         Swal.fire({

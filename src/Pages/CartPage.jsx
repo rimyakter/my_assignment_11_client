@@ -5,22 +5,24 @@ import { FiTrash2 } from "react-icons/fi";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export default function CartPage() {
   const { user } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/cart/${user.email}`)
+    axiosSecure
+      .get(`/cart/${user?.email}`)
       .then((res) => setCartItems(res.data))
       .catch((err) => console.error("Error loading cart:", err));
-  }, [user]);
+  }, [user, axiosSecure]);
 
   const handleRemove = async (orderId) => {
     try {
-      await axios.delete(`http://localhost:3000/cart/${orderId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/cart/${orderId}`);
       setCartItems((prev) => prev.filter((item) => item._id !== orderId));
       Swal.fire({
         position: "top-end",

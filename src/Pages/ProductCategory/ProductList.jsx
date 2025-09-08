@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import ReactStars from "react-stars";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export default function ProductList() {
   const { id } = useParams(); // category id
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/products?category=${id}`)
+    axiosSecure
+      .get(`${import.meta.env.VITE_API_URL}/products?category=${id}`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
-  }, [id]);
+  }, [id, axiosSecure]);
 
   return (
     <div className="p-6">
