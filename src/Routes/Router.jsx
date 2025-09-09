@@ -13,6 +13,7 @@ import UpdateProduct from "../Pages/Footer/UpdateProduct";
 import AddProduct from "../Pages/AddProduct";
 import CartPage from "../Pages/CartPage";
 import MyProducts from "../Pages/MyProducts";
+import Loading from "../Pages/Home/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -30,9 +31,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "/category/:id",
-        element: <ProductList></ProductList>,
+        element: (
+          <PrivateRoute>
+            <ProductList></ProductList>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/products/${params.id}`),
+        hydrateFallbackElement: <Loading></Loading>,
       },
       {
         path: "/product/:productId",

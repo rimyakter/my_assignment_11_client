@@ -1,23 +1,28 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { FiTrash2 } from "react-icons/fi";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import axios from "axios";
 
 export default function CartPage() {
   const { user } = useContext(AuthContext);
   const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true); // ⬅️ loading state
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
+    if (!user?.email) return;
+
+    setLoading(true); // start loading
     axiosSecure
-      .get(`/cart/${user?.email}`)
+      .get(`/cart/${user.email}`)
       .then((res) => setCartItems(res.data))
-      .catch((err) => console.error("Error loading cart:", err));
+      .catch((err) => console.error("Error loading cart:", err))
+      .finally(() => setLoading(false)); // stop loading
   }, [user, axiosSecure]);
 
   const handleRemove = async (orderId) => {
@@ -27,7 +32,7 @@ export default function CartPage() {
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "You cancel order successfully",
+        title: "You cancelled the order successfully",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -51,7 +56,12 @@ export default function CartPage() {
         🛒 My Orders Page
       </h1>
 
-      {cartItems.length === 0 ? (
+      {/* Loader */}
+      {loading ? (
+        <div className="flex justify-center items-center py-10">
+          <span className="loading loading-spinner loading-lg text-[#EB5E28]"></span>
+        </div>
+      ) : cartItems.length === 0 ? (
         <p className="text-lg text-gray-600">No orders found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

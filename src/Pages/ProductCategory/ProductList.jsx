@@ -12,7 +12,7 @@ export default function ProductList() {
 
   useEffect(() => {
     axiosSecure
-      .get(`${import.meta.env.VITE_API_URL}/products?category=${id}`)
+      .get(`/products?category=${id}`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
   }, [id, axiosSecure]);

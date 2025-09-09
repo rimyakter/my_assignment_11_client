@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReactStars from "react-stars";
@@ -10,19 +9,20 @@ export default function AllProducts() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
-  const [showAvailableOnly, setShowAvailableOnly] = useState(false); // filter toggle
-  const [view, setView] = useState("card"); // view toggle (card / table)
+  const [showAvailableOnly, setShowAvailableOnly] = useState(false);
+  const [view, setView] = useState("card");
+  const [loading, setLoading] = useState(true); // ⬅️ new state
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
+    setLoading(true); // start loading
     axiosSecure
-      .get(`/products`, {})
-
+      .get(`/products`)
       .then((res) => setProducts(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error(err))
+      .finally(() => setLoading(false)); // stop loading
   }, [axiosSecure]);
 
-  // filtered products
   const displayedProducts = showAvailableOnly
     ? products.filter((p) => p.minQty > 100)
     : products;
@@ -43,7 +43,6 @@ export default function AllProducts() {
           {showAvailableOnly ? "Show All Products" : "Show Available Products"}
         </button>
 
-        {/* View Toggle Dropdown */}
         <select
           value={view}
           onChange={(e) => setView(e.target.value)}
@@ -54,8 +53,12 @@ export default function AllProducts() {
         </select>
       </div>
 
-      {/* No Products */}
-      {displayedProducts.length === 0 ? (
+      {/* Loader */}
+      {loading ? (
+        <div className="flex justify-center items-center py-10">
+          <span className="loading loading-spinner loading-lg text-[#EB5E28]"></span>
+        </div>
+      ) : displayedProducts.length === 0 ? (
         <p className="text-gray-500 text-center">No products found.</p>
       ) : view === "card" ? (
         // Card View
@@ -77,13 +80,13 @@ export default function AllProducts() {
                 size={24}
                 edit={false}
                 half={true}
-                color2={"#ffd700"} // gold stars
+                color2={"#ffd700"}
               />
               <p className="text-gray-500">Total Quantity: {p.mainQuantity}</p>
               <p className="text-gray-700">Min. Selling Qty: {p.minQty}</p>
               <button
                 onClick={() => navigate(`/update-product/${p._id}`)}
-                className="mt-4 bg-[#eb5e28] text-white px-4 py-2 rounded-lg hover:bg-[#eb5f28e9]"
+                className="mt-4 bg-[#eb5e28] text-white px-4 py-2 rounded-lg hover:bg-[#eb5f28e9] "
               >
                 Update
               </button>
@@ -91,7 +94,7 @@ export default function AllProducts() {
           ))}
         </div>
       ) : (
-        // Always Table View (scrollable on mobile)
+        // Table View
         <div className="overflow-x-auto">
           <table className="table w-full border">
             <thead className="bg-gray-100">
