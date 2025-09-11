@@ -7,8 +7,8 @@ The platform supports **multi-category product listings** (electronics, fashion,
 
 ## 🚀 Live Demo
 
-🔗 [Live Site URL](https://your-deployment-link.com)  
-🔗 [Server API URL](https://your-server-link.com)
+🔗 [Live Site URL](https://b2b-wholesale-d8558.web.app)  
+🔗 [Server API URL](https://b2bwholesale.vercel.app)
 
 ---
 
