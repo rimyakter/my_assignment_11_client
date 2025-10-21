@@ -36,7 +36,7 @@ export default function AllProducts() {
     : products;
 
   return (
-    <div className="p-6 w-11/12 mx-auto ">
+    <div className="p-6 w-11/12 mx-auto mb-6">
       <Helmet>
         <title>Wholesale Avenue || All Products</title>
       </Helmet>
