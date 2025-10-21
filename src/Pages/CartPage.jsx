@@ -6,6 +6,7 @@ import { Helmet } from "@dr.pogodin/react-helmet";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import axios from "axios";
+import { FaShoppingCart } from "react-icons/fa";
 
 export default function CartPage() {
   const { user } = useContext(AuthContext);
@@ -48,13 +49,16 @@ export default function CartPage() {
   };
 
   return (
-    <div className="p-6">
+    <div className="mb-12">
       <Helmet>
-        <title>B2B Wholesale || Cart Page</title>
+        <title>Wholesale Avenue || Cart Page</title>
       </Helmet>
-      <h1 className="text-3xl font-bold my-6 text-[#eb5e28]">
-        🛒 My Orders Page
+      <h1 className="text-xl md:text-3xl font-bold mt-12 mb-3 text-gray-900 text-center gap-3 flex items-center justify-center">
+        <FaShoppingCart className="text-primary" /> My Orders Page
       </h1>
+      <p className="text-gray-6 text-sm md:text-lg text-center mb-12">
+        View and manage all your orders
+      </p>
 
       {/* Loader */}
       {loading ? (
@@ -64,7 +68,7 @@ export default function CartPage() {
       ) : cartItems.length === 0 ? (
         <p className="text-lg text-gray-600">No orders found.</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="w-11/12 mx-auto bg-gray-100 p-6 rounded-sm mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cartItems.map((item) => (
             <div key={item._id} className="card bg-base-100 shadow-xl">
               <figure className="h-40">
@@ -90,16 +94,16 @@ export default function CartPage() {
                   <span className="font-semibold">Category:</span>{" "}
                   {item.category}
                 </p>
-                <p className="text-sm">
+                {/* <p className="text-sm">
                   <span className="font-semibold">Description:</span>{" "}
                   {item.description}
-                </p>
-                <p className="text-sm">
+                </p> */}
+                {/* <p className="text-sm">
                   <span className="font-semibold">
                     Minimum Buying Quantity:
                   </span>{" "}
                   {item.minBuyQty}
-                </p>
+                </p> */}
                 <p className="text-sm">
                   <span className="font-semibold">Total:</span> ${item.total}
                 </p>

@@ -28,13 +28,13 @@ export default function MyProducts() {
   }, [user, axiosSecure]);
 
   return (
-    <div className="p-6 w-11/12 mx-auto py-12">
+    <div className="w-11/12 mx-auto py-12">
       <Helmet>
         <title>Wholesale Avenue || My Products</title>
       </Helmet>
 
       {/* Page Title */}
-      <div className=" text-center pb-12 ">
+      <div className=" text-center pb-12">
         <h1 className="text-xl md:text-3xl font-bold flex items-center justify-center gap-3 text-gray-900">
           <FaBoxOpen className="text-primary" />
           My Added Products

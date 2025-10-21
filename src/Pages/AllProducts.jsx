@@ -36,11 +36,11 @@ export default function AllProducts() {
     : products;
 
   return (
-    <div className="p-6 w-11/12 mx-auto mb-6">
+    <div className="w-11/12 mx-auto mb-6">
       <Helmet>
         <title>Wholesale Avenue || All Products</title>
       </Helmet>
-      <h1 className="text-xl md:text-3xl font-bold mt-6 text-center gap-3 flex items-center justify-center">
+      <h1 className="text-xl md:text-3xl font-bold mt-12 text-center gap-3 flex items-center justify-center">
         <FaThList className="text-primary" />
         All Products Page
       </h1>
@@ -105,10 +105,10 @@ export default function AllProducts() {
                 color2={"#d9500b"}
               />
 
-              <p className="text-gray-500 flex items-center gap-2">
+              {/* <p className="text-gray-500 flex items-center gap-2">
                 <FaBoxes className="text-primary" /> Total Quantity:{" "}
                 {p.mainQuantity}
-              </p>
+              </p> */}
               <p className="text-gray-700 flex items-center gap-2">
                 <FaClipboardList className="text-primary" /> Min. Selling Qty:{" "}
                 {p.minQty}
