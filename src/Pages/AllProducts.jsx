@@ -4,13 +4,16 @@ import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReactStars from "react-stars";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import axios from "axios";
 import {
   FaBoxes,
   FaThList,
   FaBuilding,
   FaTag,
   FaDollarSign,
-  FaClipboardList,
+  FaPlus,
+  FaMinus,
 } from "react-icons/fa";
 
 export default function AllProducts() {
@@ -21,6 +24,12 @@ export default function AllProducts() {
   const [view, setView] = useState("card");
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
+
+  // ✅ States for Buy Now feature
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -35,6 +44,45 @@ export default function AllProducts() {
     ? products.filter((p) => p.minQty > 100)
     : products;
 
+  const increase = () => setQuantity((q) => q + 1);
+  const decrease = () => setQuantity((q) => Math.max(1, q - 1));
+
+  // ✅ Handle Buy logic (copied from ProductDetails)
+  const handleBuy = async () => {
+    document.getElementById("buy_modal").close();
+    if (quantity < selectedProduct.minQty) {
+      return Swal.fire(
+        "Minimum Order Required",
+        `You must order at least ${selectedProduct.minQty}`,
+        "warning"
+      );
+    }
+
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
+        productId: selectedProduct._id,
+        quantity,
+        buyerName: user?.displayName,
+        buyerEmail: user?.email,
+        phone,
+        address,
+      });
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your order Placed Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      document.getElementById("buy_modal").close();
+      navigate(`/cart/${user.email}`);
+    } catch (err) {
+      Swal.fire("Error", "Something went wrong", "error");
+    }
+  };
+
   return (
     <div className="w-11/12 mx-auto mb-6">
       <Helmet>
@@ -48,7 +96,8 @@ export default function AllProducts() {
         Explore our complete collection of products and find your favorites
       </p>
 
-      <div className=" mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
+      {/* Filters */}
+      <div className="mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
         <button
           onClick={() => setShowAvailableOnly(!showAvailableOnly)}
           className="bg-[#EB5E28] text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
@@ -105,21 +154,27 @@ export default function AllProducts() {
                 color2={"#d9500b"}
               />
 
-              {/* <p className="text-gray-500 flex items-center gap-2">
-                <FaBoxes className="text-primary" /> Total Quantity:{" "}
-                {p.mainQuantity}
-              </p> */}
-              <p className="text-gray-700 flex items-center gap-2">
-                <FaClipboardList className="text-primary" /> Min. Selling Qty:{" "}
-                {p.minQty}
-              </p>
+              {/* Action Buttons */}
+              <div className="flex gap-3 mt-4 justify-between">
+                <button
+                  onClick={() => navigate(`/update-product/${p._id}`)}
+                  className="text-primary bg-white border border-primary px-4 py-2 rounded-sm hover:bg-primary hover:text-white hover:cursor-pointer"
+                >
+                  Update
+                </button>
 
-              <button
-                onClick={() => navigate(`/update-product/${p._id}`)}
-                className="mt-4 bg-primary text-white px-4 py-2 rounded-sm hover:cursor-pointer"
-              >
-                Update
-              </button>
+                {/* ✅ New Buy Now Button */}
+                <button
+                  onClick={() => {
+                    setSelectedProduct(p);
+                    setQuantity(p.minQty || 1);
+                    document.getElementById("buy_modal").showModal();
+                  }}
+                  className="bg-white text-primary border border-primary px-4 py-2 rounded-sm hover:bg-primary hover:text-white hover:cursor-pointer"
+                >
+                  Buy Now
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -154,13 +209,25 @@ export default function AllProducts() {
                   <td>${p.price}</td>
                   <td>{p.minQty}</td>
                   <td>{p.rating || 0}</td>
-                  <td>
-                    <button
-                      onClick={() => navigate(`/update-product/${p._id}`)}
-                      className="btn btn-sm bg-primary text-white hover:cursor-pointer"
-                    >
-                      Update
-                    </button>
+                  <td className="flex gap-2">
+                    <div className="flex gap-3 mt-4">
+                      <button
+                        onClick={() => navigate(`/update-product/${p._id}`)}
+                        className="btn btn-sm bg-primary text-white hover:cursor-pointer"
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedProduct(p);
+                          setQuantity(p.minQty || 1);
+                          document.getElementById("buy_modal").showModal();
+                        }}
+                        className="btn btn-sm bg-primary text-white hover:cursor-pointer"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -168,6 +235,83 @@ export default function AllProducts() {
           </table>
         </div>
       )}
+
+      {/* ✅ Shared Buy Modal */}
+      <dialog id="buy_modal" className="modal">
+        <div className="modal-box rounded-2xl p-6 space-y-4 shadow-lg">
+          {selectedProduct && (
+            <>
+              <h3 className="font-bold text-2xl mb-4">
+                Buy {selectedProduct.name}
+              </h3>
+
+              <div className="flex items-center gap-3 mb-4">
+                <button
+                  type="button"
+                  onClick={decrease}
+                  className="btn btn-outline btn-square"
+                >
+                  <FaMinus />
+                </button>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="input input-bordered w-20 text-center"
+                />
+                <button
+                  type="button"
+                  onClick={increase}
+                  className="btn btn-outline btn-square"
+                >
+                  <FaPlus />
+                </button>
+                <span className="ml-3 text-sm text-gray-600">
+                  Min: {selectedProduct.minQty}
+                </span>
+              </div>
+
+              <input
+                type="text"
+                value={user?.displayName || ""}
+                readOnly
+                className="input input-bordered w-full mb-2"
+              />
+              <input
+                type="email"
+                value={user?.email || ""}
+                readOnly
+                className="input input-bordered w-full mb-2"
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                className="input input-bordered w-full mb-2"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+              <textarea
+                placeholder="Address"
+                className="textarea textarea-bordered w-full mb-2"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+
+              <div className="modal-action flex justify-end gap-2">
+                <button
+                  className="btn btn-outline"
+                  onClick={() => document.getElementById("buy_modal").close()}
+                >
+                  Cancel
+                </button>
+                <button className="btn btn-primary" onClick={handleBuy}>
+                  Confirm Buy
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </dialog>
     </div>
   );
 }
