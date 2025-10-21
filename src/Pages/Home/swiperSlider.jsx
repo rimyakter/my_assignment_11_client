@@ -8,19 +8,18 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "react-router";
-import { Typewriter } from "react-simple-typewriter"; // ✅ Import typewriter
 
 const slides = [
   {
     image: slider1,
-    titleWords: ["Welcome to B2B Wholesale", "Find Your Products easily"],
+    title: "Welcome to B2B Wholesale",
     subtitle: "We have a special offer for our new customer in first purchase",
     buttonText: "Buy Now",
     buttonLink: "/categories",
   },
   {
     image: slider2,
-    titleWords: ["Fully Trusted & Secure", "Safe & Reliable"],
+    title: "Fully Trusted & Secure",
     subtitle:
       "We search for good products and provide good services through years",
     buttonText: "Explore More",
@@ -28,7 +27,7 @@ const slides = [
   },
   {
     image: slider3,
-    titleWords: ["Sale! Sale! Sale!", "Friday Sale Up to 50%"],
+    title: "Sale! Sale! Sale!",
     subtitle: "We have a lot of different products on sale every weekend",
     buttonText: "See More",
     buttonLink: "/add-product",
@@ -37,15 +36,15 @@ const slides = [
 
 const SwiperSlider = () => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-11/12 mx-auto my-4">
       <Swiper
-        className="h-[70vh] sm:h-[80vh] md:h-[80vh] lg:h-[90vh]"
+        className="h-[50vh] sm:h-[60vh] md:h-[70vh] rounded-md"
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={30}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 10000 }}
+        autoplay={{ delay: 1500 }}
         loop={true}
       >
         {slides.map((slide, index) => (
@@ -61,16 +60,7 @@ const SwiperSlider = () => {
               {/* Overlay Content */}
               <div className="absolute inset-0 bg-black/70 flex flex-col justify-center items-center text-center text-white px-6 sm:px-12 md:px-20">
                 <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold leading-tight mb-4">
-                  {/* ✅ Typewriter effect */}
-                  <Typewriter
-                    words={slide.titleWords}
-                    loop={true}
-                    cursor
-                    cursorStyle="|"
-                    typeSpeed={120}
-                    deleteSpeed={50}
-                    delaySpeed={1000}
-                  />
+                  {slide.title}
                 </h2>
 
                 <p className="text-sm sm:text-lg md:text-xl mb-6 max-w-2xl">
@@ -78,7 +68,7 @@ const SwiperSlider = () => {
                 </p>
                 <Link
                   to={slide.buttonLink}
-                  className="bg-[#eb5e28] hover:bg-[#eb5f28d8] transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base"
+                  className="bg-primary hover:bg-primary transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base"
                 >
                   {slide.buttonText}
                 </Link>

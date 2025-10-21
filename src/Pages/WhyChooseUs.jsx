@@ -14,37 +14,37 @@ export default function WhyChooseUs() {
       title: "Smarter Sourcing",
       desc: "Source products from lakhs of verified suppliers with ease.",
       icon: <FaChartLine size={30} />,
-      color: "bg-blue-100 text-blue-700",
+      color: "bg-white text-primary",
     },
     {
       title: "Wholesale Prices You’ll Love",
       desc: "Get exclusive wholesale rates across lakhs of products.",
       icon: <FaTags size={30} />,
-      color: "bg-green-100 text-green-700",
+      color: "bg-white text-primary",
     },
     {
       title: "1000+ Premium Brands",
       desc: "Stock the products your customers want from World's most trusted brands.",
       icon: <FaIndustry size={30} />,
-      color: "bg-purple-100 text-purple-700",
+      color: "bg-white text-primary",
     },
     {
       title: "Hassle-Free Returns",
       desc: "Easy, no-fuss returns on eligible items for peace of mind.",
       icon: <FaUndo size={30} />,
-      color: "bg-red-100 text-red-700",
+      color: "bg-white text-primary",
     },
     {
       title: "Fast & Reliable Delivery",
       desc: "From top cities across Bangladesh, directly to your shop & Home.",
       icon: <FaTruck size={30} />,
-      color: "bg-yellow-100 text-yellow-700",
+      color: "bg-white text-primary",
     },
     {
       title: "Business Credit",
       desc: "Grow your shop with flexible financing options.",
       icon: <FaCreditCard size={30} />,
-      color: "bg-pink-100 text-pink-700",
+      color: "bg-white text-primary",
     },
   ];
 
@@ -55,14 +55,16 @@ export default function WhyChooseUs() {
   };
 
   return (
-    <section className="py-16 px-6 bg-yellow-50">
-      <h2 className="text-3xl font-bold text-center mb-4">Why Choose Us</h2>
-      <p className="text-center text-gray-600 mb-12">
-        Join millions of businesses growing with Bangladesh’s largest B2B
+    <section className="py-12 w-full bg-yellow-100">
+      <h2 className="text-xl md:text-3xl font-bold text-center mb-2 text-gray-900">
+        Why Choose Us
+      </h2>
+      <p className="text-center text-gray-600 mb-12 text-sm md:text-lg">
+        Join millions of businesses growing with Bangladesh’s largest Wholesale
         platform
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 ">
         {features.map((f, idx) => (
           <motion.div
             key={idx}

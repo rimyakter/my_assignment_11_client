@@ -2,7 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import {
+  FaPlus,
+  FaMinus,
+  FaBuilding,
+  FaBoxes,
+  FaClipboardList,
+  FaDollarSign,
+} from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
@@ -28,11 +35,9 @@ export default function ProductDetails() {
 
   if (!product) return <p className="p-6">Product Not found</p>;
 
-  // Quantity handlers
   const increase = () => setMainQuantity((q) => q + 1);
   const decrease = () => setMainQuantity((q) => Math.max(1, q - 1));
 
-  // Buy handler
   const handleBuy = async () => {
     document.getElementById("buy_modal").close();
     if (mainQuantity < product.minQty) {
@@ -69,51 +74,62 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="p-6">
+    <div className="w-11/12 mx-auto py-12">
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="mb-6 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg"
+        className="mb-4 bg-gray-100  text-gray-700 px-4 py-2 rounded-sm shadow-sm hover:scale-105 transition-transform"
       >
         ← Back
       </button>
 
       {/* Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="bg-gray-100 p-6 rounded-sm grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Image */}
         <img
           src={product.image}
           alt={product.name}
-          className="rounded-xl w-full h-96 object-cover"
+          className="rounded-sm w-full h-96 object-cover shadow-sm hover:scale-105 transition-transform"
         />
 
         {/* Info */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-          <p className="text-gray-600 mt-2">Brand: {product.brand}</p>
-          <p className="text-gray-700 mt-2">{product.description}</p>
-          <p className="font-bold text-2xl mt-4">${product.price}</p>
-          <p className="font-bold text-lg mt-4">
-            Total Quantity: {product.mainQuantity}
+        <div className="col-span-2 bg-white rounded-sm shadow-sm p-6 space-y-4">
+          <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
+
+          <p className="text-gray-600 flex items-center gap-2">
+            <FaBuilding className="text-primary" /> {product.brand}
           </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Minimum Quantity for Order: {product.minQty}
+
+          <p className="text-gray-800">{product.description}</p>
+
+          <p className="text-2xl font-bold flex items-center gap-2 text-primary">
+            <FaDollarSign /> {product.price}
+          </p>
+
+          <p className="flex items-center gap-2 text-gray-600">
+            <FaBoxes className="text-primary" /> Total Quantity:{" "}
+            {product.mainQuantity}
+          </p>
+
+          <p className="flex items-center gap-2 text-gray-600">
+            <FaClipboardList className="text-primary" /> Min Quantity:{" "}
+            {product.minQty}
           </p>
 
           {/* Buy button */}
           <button
             onClick={() => document.getElementById("buy_modal").showModal()}
-            className="bg-green-600 text-white px-6 py-2 rounded-lg mt-6 hover:bg-green-700"
+            className="bg-primary text-white px-6 py-3 rounded-sm mt-4  shadow-sm font-semibold w-full transition-colors"
           >
-            Buy
+            Buy Now
           </button>
         </div>
       </div>
 
       {/* Buy Modal */}
       <dialog id="buy_modal" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg mb-4">Buy {product.name}</h3>
+        <div className="modal-box rounded-2xl p-6 space-y-4 shadow-lg">
+          <h3 className="font-bold text-2xl mb-4">Buy {product.name}</h3>
 
           {/* Quantity */}
           <div className="flex items-center gap-3 mb-4">
@@ -172,9 +188,9 @@ export default function ProductDetails() {
           />
 
           {/* Actions */}
-          <div className="modal-action">
+          <div className="modal-action flex justify-end gap-2">
             <button
-              className="btn"
+              className="btn btn-outline"
               onClick={() => document.getElementById("buy_modal").close()}
             >
               Cancel

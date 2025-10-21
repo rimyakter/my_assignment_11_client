@@ -8,48 +8,48 @@ export default function BlogPage() {
   const blogs = [
     {
       id: 1,
-      title: "How to Grow Your Wholesale Business",
+      title: "How to grow your wholesale business",
       desc: "Learn proven strategies to scale your wholesale shop efficiently.",
       full: "Learn proven strategies to scale your wholesale shop efficiently. Start with building strong supplier networks, adopting digital tools, and leveraging eB2B platforms to expand your reach. Consistency and customer service are key.",
       date: "Sep 4, 2025",
       author: "Admin",
-      color: "bg-green-50",
+      color: "bg-gray-100",
     },
     {
       id: 2,
-      title: "Why B2B Platforms Are the Future",
-      desc: "Discover how eB2B is transforming sourcing and supply chain.",
-      full: "Discover how eB2B is transforming sourcing and supply chain by offering transparency, better pricing, and faster communication. Businesses save time and money while connecting with verified suppliers globally.",
+      title: "Why Wholesale Avenue platforms are the future",
+      desc: "Discover how Wholesale Avenue is transforming sourcing and supply chain.",
+      full: "Discover how Wholesale Avenue is transforming sourcing and supply chain by offering transparency, better pricing, and faster communication. Businesses save time and money while connecting with verified suppliers globally.",
       date: "Aug 28, 2025",
       author: "John Doe",
-      color: "bg-green-50",
+      color: "bg-gray-100",
     },
     {
       id: 3,
-      title: "Top 10 Products to Resell in 2025",
+      title: "Top 10 products to resell in 2026",
       desc: "Check out trending products that businesses are stocking up on.",
       full: "Check out trending products that businesses are stocking up on, including electronics, eco-friendly goods, and fashion essentials. Demand is rising, and wholesalers can benefit from stocking up early.",
       date: "Aug 15, 2025",
       author: "Sarah Lee",
-      color: "bg-green-50",
+      color: "bg-gray-100",
     },
     {
       id: 4,
-      title: "Managing Inventory Like a Pro",
+      title: "Managing inventory like a pro",
       desc: "Tips to optimize stock levels and avoid overbuying.",
       full: "Managing inventory effectively is crucial for wholesale success. Use forecasting tools, set reorder points, and track fast-moving products. Avoid tying up too much capital in slow-moving stock.",
       date: "Aug 5, 2025",
       author: "Admin",
-      color: "bg-green-50",
+      color: "bg-gray-100",
     },
     {
       id: 5,
-      title: "Wholesale Pricing Secrets",
+      title: "Wholesale pricing secrets",
       desc: "A guide to understanding how wholesale pricing works.",
       full: "Wholesale pricing involves understanding bulk discounts, supplier negotiations, and logistics costs. Knowing the margin structure helps wholesalers stay competitive while maintaining profitability.",
       date: "Jul 20, 2025",
       author: "James Bond",
-      color: "bg-green-50",
+      color: "bg-gray-100",
     },
   ];
 
@@ -65,19 +65,21 @@ export default function BlogPage() {
   };
 
   return (
-    <section className="py-16 px-6">
-      <h2 className="text-3xl font-bold text-center mb-4">Our Blog</h2>
-      <p className="text-center text-gray-600 mb-12">
+    <section className="py-12 px-6">
+      <h2 className="text-xl md:text-3xl font-bold text-center mb-2 text-gray-900">
+        Our Blogs
+      </h2>
+      <p className="text-center text-sm md:text-lg text-gray-600 mb-12">
         Stay updated with the latest tips, insights, and news for wholesale
         businesses.
       </p>
 
       {/* Blog Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {blogs.map((blog, idx) => (
           <motion.div
             key={blog.id}
-            className={`${blog.color} rounded-2xl shadow-md p-8 cursor-pointer`}
+            className={`${blog.color} rounded-xl shadow-sm p-8 cursor-pointer`}
             variants={cardVariants}
             initial="hidden"
             animate="visible"
@@ -88,7 +90,7 @@ export default function BlogPage() {
             }}
           >
             {/* Blog Info */}
-            <p className="text-sm text-gray-500 flex items-center gap-2">
+            <p className="text-sm text-primary flex items-center gap-2">
               <FaCalendarAlt /> {blog.date} • <FaUser /> {blog.author}
             </p>
 
@@ -110,7 +112,7 @@ export default function BlogPage() {
 
             <button
               onClick={() => setExpanded(expanded === blog.id ? null : blog.id)}
-              className="mt-4 text-[#eb5e28] font-medium flex items-center gap-2 hover:underline"
+              className="mt-4 text-gray-600 font-medium flex items-center gap-2 hover:text-primary"
             >
               {expanded === blog.id ? "Show Less" : "Read More"}{" "}
               <FaArrowRight />

@@ -41,23 +41,16 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4">Follow Us</h3>
             <div className="flex gap-4">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/rimy.aktr"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white bg-blue-600 p-3 rounded-full hover:bg-blue-700 transition"
               >
                 <FaFacebookF />
               </a>
+
               <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white bg-blue-400 p-3 rounded-full hover:bg-blue-500 transition"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/__rimy__aktr/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white bg-pink-500 p-3 rounded-full hover:bg-pink-600 transition"
@@ -65,7 +58,7 @@ const Footer = () => {
                 <FaInstagram />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/asha-akter-rimy/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white bg-blue-800 p-3 rounded-full hover:bg-blue-900 transition"
@@ -78,7 +71,8 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="mt-10 text-center text-sm text-white">
-          &copy; {new Date().getFullYear()} B2B-wholesale. All rights reserved.
+          &copy; {new Date().getFullYear()} Wholesale Avenue. All rights
+          reserved.
         </div>
       </div>
     </footer>

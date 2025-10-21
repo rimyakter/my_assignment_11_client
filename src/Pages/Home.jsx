@@ -4,6 +4,8 @@ import CategoryList from "./ProductCategory/CategoryList";
 import WhyChooseUs from "./WhyChooseUs";
 import BlogPage from "./BlogPage";
 import { Helmet } from "@dr.pogodin/react-helmet";
+import TrustedPartners from "./Home/TrustedPartners";
+import Testimonials from "./Home/Testimonials";
 
 const Home = () => {
   return (
@@ -22,6 +24,12 @@ const Home = () => {
       </div>
       <div>
         <BlogPage></BlogPage>
+      </div>
+      <div>
+        <TrustedPartners></TrustedPartners>
+      </div>
+      <div>
+        <Testimonials></Testimonials>
       </div>
     </div>
   );

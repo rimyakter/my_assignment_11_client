@@ -6,6 +6,7 @@ import { FaBars, FaTimes } from "react-icons/fa";
 
 import Swal from "sweetalert2";
 import { AuthContext } from "../Context/AuthContext";
+import NavLogo from "./NavLogo";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,18 +33,12 @@ const Navbar = () => {
 
   return (
     <div
-      className="nav header border-b border-white text-white bg-[#023047] shadow-md w-full sticky top-0 z-50"
+      className="nav header text-white bg-[#023047] shadow-md w-full sticky top-0 z-50"
       data-aos="fade-down"
     >
       <div className="w-11/12 mx-auto py-4 flex items-center justify-between">
         {/* Logo */}
-        <h2
-          className="text-2xl font-bold"
-          data-aos="fade-right"
-          data-aos-delay="100"
-        >
-          B2B Wholesale
-        </h2>
+        <NavLogo></NavLogo>
 
         {/* Desktop Nav */}
         <div
