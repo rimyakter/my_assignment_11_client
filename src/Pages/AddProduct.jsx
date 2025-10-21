@@ -5,6 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { FaBoxOpen } from "react-icons/fa"; // ✅ only title icon kept
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -39,7 +40,6 @@ const AddProduct = () => {
     }
 
     try {
-      // include user email in request body
       const payload = {
         ...formData,
         userEmail: user?.email || "anonymous",
@@ -77,121 +77,146 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="py-12 bg-white rounded-sm shadow-sm">
       <Helmet>
-        <title>B2B Wholesale || Add Product</title>
+        <title>Wholesale Avenue || Add Product</title>
       </Helmet>
-      <h2 className="text-2xl font-bold mb-4">Add Product</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+      {/* Page Title */}
+      <h2 className="text-xl md:text-3xl font-bold mb-2 text-center text-gray-900 flex items-center justify-center gap-3">
+        <FaBoxOpen className="text-[#eb5e28] text-3xl" />
+        Add Products
+      </h2>
+      <p className="text-gray-500 text-center mb-8">
+        Fill in the details below to add your new product to the catalog
+      </p>
 
-        <input
-          type="text"
-          name="brand"
-          placeholder="Brand Name"
-          value={formData.brand}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+      {/* Two-Column Form */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gray-100 rounded-sm w-11/12 mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch"
+      >
+        {/* Left Column */}
+        <div className="space-y-4 flex flex-col justify-between">
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            value={formData.name}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
 
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          className="select select-bordered w-full"
-          required
-        >
-          <option value="">Select Category</option>
-          {categories.map((cat) => (
-            <option key={cat} value={cat.toLowerCase()}>
-              {cat}
-            </option>
-          ))}
-        </select>
+          <input
+            type="text"
+            name="brand"
+            placeholder="Brand Name"
+            value={formData.brand}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
 
-        <input
-          type="number"
-          name="mainQuantity"
-          placeholder="Main Quantity"
-          value={formData.mainQuantity}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            className="select select-bordered w-full"
+            required
+          >
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat.toLowerCase()}>
+                {cat}
+              </option>
+            ))}
+          </select>
 
-        <input
-          type="number"
-          name="minQty"
-          placeholder="Minimum Selling Quantity"
-          value={formData.minQty}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+          <input
+            type="number"
+            name="mainQuantity"
+            placeholder="Main Quantity"
+            value={formData.mainQuantity}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
 
-        <textarea
-          name="description"
-          placeholder="Short Description"
-          value={formData.description}
-          onChange={handleChange}
-          className="textarea textarea-bordered w-full"
-          required
-        />
+          <input
+            type="number"
+            name="minQty"
+            placeholder="Minimum Selling Quantity"
+            value={formData.minQty}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
+        </div>
 
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+        {/* Right Column */}
+        <div className="space-y-4 flex flex-col justify-between">
+          <textarea
+            name="description"
+            placeholder="Short Description"
+            value={formData.description}
+            onChange={handleChange}
+            className="textarea textarea-bordered w-full h-32"
+            required
+          />
 
-        <input
-          type="number"
-          step="0.1"
-          name="rating"
-          placeholder="Rating (1-5)"
-          value={formData.rating}
-          onChange={handleChange}
-          min="1"
-          max="5"
-          className="input input-bordered w-full"
-          required
-        />
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={formData.price}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
 
-        <input
-          type="text"
-          name="image"
-          placeholder="Image URL"
-          value={formData.image}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-          className="input input-bordered w-full"
-          required
-        />
+          <input
+            type="number"
+            step="0.1"
+            name="rating"
+            placeholder="Rating (1-5)"
+            value={formData.rating}
+            onChange={handleChange}
+            min="1"
+            max="5"
+            className="input input-bordered w-full"
+            required
+          />
 
-        <button type="submit" className="btn bg-[#eb5e28] text-white w-full">
-          Add Product
-        </button>
+          <input
+            type="text"
+            name="image"
+            placeholder="Image URL"
+            value={formData.image}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+            className="input input-bordered w-full"
+            readOnly
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="md:col-span-2 flex justify-center mt-6">
+          <button
+            type="submit"
+            className="btn bg-[#eb5e28] text-white w-full md:w-1/2 hover:bg-[#eb5e28]/90 transition-all duration-300"
+          >
+            Add Product
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -6,6 +6,7 @@ import {
   FaCreditCard,
   FaIndustry,
   FaChartLine,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 export default function WhyChooseUs() {
@@ -56,8 +57,8 @@ export default function WhyChooseUs() {
 
   return (
     <section className="py-12 w-full bg-yellow-100">
-      <h2 className="text-xl md:text-3xl font-bold text-center mb-2 text-gray-900">
-        Why Choose Us
+      <h2 className="text-xl md:text-3xl font-bold my-6 text-center gap-3 flex items-center justify-center">
+        <FaCheckCircle className="text-primary" /> Why Choose Us
       </h2>
       <p className="text-center text-gray-600 mb-12 text-sm md:text-lg">
         Join millions of businesses growing with Bangladesh’s largest Wholesale

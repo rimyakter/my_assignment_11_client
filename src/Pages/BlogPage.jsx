@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaCalendarAlt, FaUser, FaArrowRight } from "react-icons/fa";
+import { FaCalendarAlt, FaUser, FaArrowRight, FaBlog } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function BlogPage() {
@@ -66,8 +66,8 @@ export default function BlogPage() {
 
   return (
     <section className="py-12 px-6">
-      <h2 className="text-xl md:text-3xl font-bold text-center mb-2 text-gray-900">
-        Our Blogs
+      <h2 className="text-xl md:text-3xl font-bold my-6 text-center gap-3 flex items-center justify-center">
+        <FaBlog className="text-primary" /> Our Blogs
       </h2>
       <p className="text-center text-sm md:text-lg text-gray-600 mb-12">
         Stay updated with the latest tips, insights, and news for wholesale

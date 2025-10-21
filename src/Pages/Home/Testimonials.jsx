@@ -1,5 +1,5 @@
 import React from "react";
-import { FaQuoteRight } from "react-icons/fa";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -33,8 +33,8 @@ const Testimonials = () => {
     <section className="py-12 bg-gray-100 to-white">
       {/* Section Title */}
       <div className="text-center mb-12">
-        <h2 className="text-xl md:text-3xl font-bold text-gray-900 mb-3">
-          What our clients say
+        <h2 className="text-xl md:text-3xl font-bold my-6 text-center gap-3 flex items-center justify-center">
+          <FaQuoteLeft className="text-primary" /> What our clients say
         </h2>
         <p className="text-gray-600 text-sm md:text-lg  ">
           Hear directly from businesses that trust us to simplify and scale

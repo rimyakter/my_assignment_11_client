@@ -4,6 +4,14 @@ import { AuthContext } from "../Context/AuthContext";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import ReactStars from "react-stars";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import {
+  FaBoxes,
+  FaThList,
+  FaBuilding,
+  FaTag,
+  FaDollarSign,
+  FaClipboardList,
+} from "react-icons/fa";
 
 export default function AllProducts() {
   const navigate = useNavigate();
@@ -11,16 +19,16 @@ export default function AllProducts() {
   const [products, setProducts] = useState([]);
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [view, setView] = useState("card");
-  const [loading, setLoading] = useState(true); // ⬅️ new state
+  const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    setLoading(true); // start loading
+    setLoading(true);
     axiosSecure
       .get(`/products`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err))
-      .finally(() => setLoading(false)); // stop loading
+      .finally(() => setLoading(false));
   }, [axiosSecure]);
 
   const displayedProducts = showAvailableOnly
@@ -28,17 +36,22 @@ export default function AllProducts() {
     : products;
 
   return (
-    <div className="p-6">
+    <div className="p-6 w-11/12 mx-auto ">
       <Helmet>
-        <title>B2B Wholesale || All Products</title>
+        <title>Wholesale Avenue || All Products</title>
       </Helmet>
-      <h1 className="text-3xl font-bold my-6 text-center">All Products</h1>
+      <h1 className="text-xl md:text-3xl font-bold mt-6 text-center gap-3 flex items-center justify-center">
+        <FaThList className="text-primary" />
+        All Products Page
+      </h1>
+      <p className="text-gray-600 text-sm md:text-lg mt-3 text-center mb-12">
+        Explore our complete collection of products and find your favorites
+      </p>
 
-      {/* Filters + View Toggle */}
-      <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between items-center">
+      <div className=" mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
         <button
           onClick={() => setShowAvailableOnly(!showAvailableOnly)}
-          className="bg-[#EB5E28] text-white px-4 py-2 rounded-lg hover:bg-[#EB5E28]/90"
+          className="bg-[#EB5E28] text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
         >
           {showAvailableOnly ? "Show All Products" : "Show Available Products"}
         </button>
@@ -53,40 +66,57 @@ export default function AllProducts() {
         </select>
       </div>
 
-      {/* Loader */}
       {loading ? (
         <div className="flex justify-center items-center py-10">
-          <span className="loading loading-spinner loading-lg text-[#EB5E28]"></span>
+          <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
       ) : displayedProducts.length === 0 ? (
         <p className="text-gray-500 text-center">No products found.</p>
       ) : view === "card" ? (
-        // Card View
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="bg-gray-100 p-6 rounded-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedProducts.map((p) => (
-            <div key={p._id} className="bg-white rounded-2xl shadow-md p-4">
+            <div
+              key={p._id}
+              className="bg-white rounded-sm shadow-sm p-4 space-y-2"
+            >
               <img
                 src={p.image}
                 alt={p.name}
-                className="h-48 w-full object-cover rounded-xl"
+                className="h-48 w-full object-cover rounded-sm"
               />
               <h2 className="text-xl font-semibold mt-2">{p.name}</h2>
-              <p className="text-gray-600">Brand: {p.brand}</p>
-              <p className="text-gray-500">Category: {p.category}</p>
-              <p className="text-gray-500">Price: ${p.price}</p>
+
+              <p className="text-gray-600 flex items-center gap-2">
+                <FaBuilding className="text-primary" /> {p.brand}
+              </p>
+              <p className="text-gray-500 flex items-center gap-2">
+                <FaTag className="text-primary" /> {p.category}
+              </p>
+              <p className="text-gray-500 flex items-center gap-2">
+                <FaDollarSign className="text-primary" /> ${p.price}
+              </p>
+
               <ReactStars
                 count={5}
                 value={Number(p.rating) || 0}
                 size={24}
                 edit={false}
                 half={true}
-                color2={"#ffd700"}
+                color2={"#d9500b"}
               />
-              <p className="text-gray-500">Total Quantity: {p.mainQuantity}</p>
-              <p className="text-gray-700">Min. Selling Qty: {p.minQty}</p>
+
+              <p className="text-gray-500 flex items-center gap-2">
+                <FaBoxes className="text-primary" /> Total Quantity:{" "}
+                {p.mainQuantity}
+              </p>
+              <p className="text-gray-700 flex items-center gap-2">
+                <FaClipboardList className="text-primary" /> Min. Selling Qty:{" "}
+                {p.minQty}
+              </p>
+
               <button
                 onClick={() => navigate(`/update-product/${p._id}`)}
-                className="mt-4 bg-[#eb5e28] text-white px-4 py-2 rounded-lg hover:bg-[#eb5f28e9] "
+                className="mt-4 bg-primary text-white px-4 py-2 rounded-sm hover:cursor-pointer"
               >
                 Update
               </button>
@@ -94,9 +124,8 @@ export default function AllProducts() {
           ))}
         </div>
       ) : (
-        // Table View
         <div className="overflow-x-auto">
-          <table className="table w-full border">
+          <table className="table w-full border border-gray-100 p-6">
             <thead className="bg-gray-100">
               <tr>
                 <th>Image</th>
@@ -128,7 +157,7 @@ export default function AllProducts() {
                   <td>
                     <button
                       onClick={() => navigate(`/update-product/${p._id}`)}
-                      className="btn btn-sm bg-[#eb5e28] text-white hover:bg-[#eb5e28]/90"
+                      className="btn btn-sm bg-primary text-white hover:cursor-pointer"
                     >
                       Update
                     </button>

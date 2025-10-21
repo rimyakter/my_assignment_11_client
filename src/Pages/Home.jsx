@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div>
       <Helmet>
-        <title>B2B Wholesale || Home</title>
+        <title>Wholesale Avenue || Home</title>
       </Helmet>
       <div>
         <SwiperSlider></SwiperSlider>

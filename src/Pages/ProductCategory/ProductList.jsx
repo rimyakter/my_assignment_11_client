@@ -63,7 +63,7 @@ export default function ProductList() {
             </p> */}
 
             <p className="text-sm text-gray-600 flex items-center gap-2">
-              <FaBuilding className="text-[#eb5e28]" /> {product.brand}
+              <FaBuilding className="text-primary" /> {product.brand}
             </p>
 
             {/* <p className="text-sm text-gray-600 flex items-center gap-2">
@@ -72,12 +72,12 @@ export default function ProductList() {
             </p> */}
 
             <p className="text-sm text-gray-500 flex items-center gap-2">
-              <FaClipboardList className="text-[#eb5e28]" /> Min Quantity:{" "}
+              <FaClipboardList className="text-primary" /> Min Quantity:{" "}
               {product.minQty}
             </p>
 
             <p className="font-bold text-lg mt-2 flex items-center gap-2">
-              <FaDollarSign className="text-[#eb5e28]" /> {product.price}
+              <FaDollarSign className="text-primary" /> {product.price}
             </p>
 
             {/* Rating with stars */}
@@ -87,12 +87,12 @@ export default function ProductList() {
               size={24}
               edit={false}
               half={true}
-              color2={"#ffd700"} // gold stars
+              color2={"#d9500b"} // gold stars
             />
 
             <button
               onClick={() => navigate(`/product/${product._id}`)}
-              className="bg-[#eb5e28] text-white px-4 py-2 rounded-sm mt-3"
+              className="bg-primary text-white px-4 py-2 rounded-sm mt-3"
             >
               View Detail
             </button>
