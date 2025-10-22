@@ -7,7 +7,6 @@ import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import axios from "axios";
 import {
-  FaBoxes,
   FaThList,
   FaBuilding,
   FaTag,
@@ -15,6 +14,7 @@ import {
   FaPlus,
   FaMinus,
 } from "react-icons/fa";
+import SearchBar from "../component/SearchBar";
 
 export default function AllProducts() {
   const navigate = useNavigate();
@@ -23,13 +23,12 @@ export default function AllProducts() {
   const [showAvailableOnly, setShowAvailableOnly] = useState(false);
   const [view, setView] = useState("card");
   const [loading, setLoading] = useState(true);
-  const axiosSecure = useAxiosSecure();
-
-  // ✅ States for Buy Now feature
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     setLoading(true);
@@ -44,10 +43,13 @@ export default function AllProducts() {
     ? products.filter((p) => p.minQty > 100)
     : products;
 
+  // ✅ Use filteredProducts if any search is done
+  const productsToShow =
+    filteredProducts.length > 0 ? filteredProducts : displayedProducts;
+
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => Math.max(1, q - 1));
 
-  // ✅ Handle Buy logic (copied from ProductDetails)
   const handleBuy = async () => {
     document.getElementById("buy_modal").close();
 
@@ -60,7 +62,6 @@ export default function AllProducts() {
     }
 
     try {
-      // ✅ Save order and get response
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
         productId: selectedProduct._id,
         quantity,
@@ -70,7 +71,6 @@ export default function AllProducts() {
         address,
       });
 
-      // ✅ Extract order ID from backend response
       const orderId = res.data._id || res.data.orderId;
 
       Swal.fire({
@@ -81,12 +81,22 @@ export default function AllProducts() {
         timer: 1500,
       });
 
-      // ✅ Navigate to payment page
       navigate(`/payment/${orderId}`);
     } catch (err) {
       console.error(err);
       Swal.fire("Error", "Something went wrong", "error");
     }
+  };
+
+  // ✅ Search handler
+  const handleSearch = (query) => {
+    const lowerQuery = query.toLowerCase();
+    const filtered = products.filter((product) =>
+      (product.productName || product.name || "")
+        .toLowerCase()
+        .includes(lowerQuery)
+    );
+    setFilteredProducts(filtered);
   };
 
   return (
@@ -102,14 +112,19 @@ export default function AllProducts() {
         Explore our complete collection of products and find your favorites
       </p>
 
-      {/* Filters */}
+      {/* Filters and Search */}
       <div className="mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
         <button
           onClick={() => setShowAvailableOnly(!showAvailableOnly)}
-          className="bg-[#EB5E28] text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
+          className="bg-primary text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
         >
           {showAvailableOnly ? "Show All Products" : "Show Available Products"}
         </button>
+
+        <div className="flex-1 md:mx-6">
+          {/* Search Bar */}
+          <SearchBar onSearch={handleSearch} />
+        </div>
 
         <select
           value={view}
@@ -125,11 +140,11 @@ export default function AllProducts() {
         <div className="flex justify-center items-center py-10">
           <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
-      ) : displayedProducts.length === 0 ? (
+      ) : productsToShow.length === 0 ? (
         <p className="text-gray-500 text-center">No products found.</p>
       ) : view === "card" ? (
         <div className="bg-gray-100 p-6 rounded-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedProducts.map((p) => (
+          {productsToShow.map((p) => (
             <div
               key={p._id}
               className="bg-white rounded-sm shadow-sm p-4 space-y-2"
@@ -160,7 +175,6 @@ export default function AllProducts() {
                 color2={"#d9500b"}
               />
 
-              {/* Action Buttons */}
               <div className="flex gap-3 mt-4 justify-between">
                 <button
                   onClick={() => navigate(`/update-product/${p._id}`)}
@@ -169,7 +183,6 @@ export default function AllProducts() {
                   Update
                 </button>
 
-                {/* ✅ New Buy Now Button */}
                 <button
                   onClick={() => {
                     setSelectedProduct(p);
@@ -200,7 +213,7 @@ export default function AllProducts() {
               </tr>
             </thead>
             <tbody>
-              {displayedProducts.map((p) => (
+              {productsToShow.map((p) => (
                 <tr key={p._id} className="hover">
                   <td>
                     <img
@@ -242,7 +255,7 @@ export default function AllProducts() {
         </div>
       )}
 
-      {/* ✅ Shared Buy Modal */}
+      {/* Buy Modal */}
       <dialog id="buy_modal" className="modal">
         <div className="modal-box rounded-2xl p-6 space-y-4 shadow-lg">
           {selectedProduct && (
