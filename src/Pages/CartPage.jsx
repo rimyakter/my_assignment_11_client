@@ -118,7 +118,7 @@ export default function CartPage() {
                 <FaShoppingCart className="text-[#EB5E28] text-3xl" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-800">
+                <h3 className="text-xl md:text-2xl font-bold text-gray-800">
                   Order Summary
                 </h3>
                 <p className="text-gray-600 text-sm mt-1">
