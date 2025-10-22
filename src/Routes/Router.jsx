@@ -15,6 +15,7 @@ import CartPage from "../Pages/CartPage";
 import MyProducts from "../Pages/MyProducts";
 import Loading from "../Pages/Home/Loading";
 import Payment from "../Payment/Payment";
+import PaymentHistory from "../Payment/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Payment></Payment>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/history",
+        element: (
+          <PrivateRoute>
+            <PaymentHistory></PaymentHistory>
           </PrivateRoute>
         ),
       },

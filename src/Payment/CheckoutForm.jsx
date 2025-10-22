@@ -1,6 +1,6 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -10,11 +10,12 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { paymentId } = useParams();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // ✅ Fetch order/payment info using TanStack Query
+  // Fetch order/payment info using TanStack Query
   const {
     data: order,
     isLoading,
@@ -27,7 +28,7 @@ const CheckoutForm = () => {
       );
       return res.data;
     },
-    enabled: !!paymentId, // Only run when paymentId exists
+    enabled: !!paymentId,
   });
 
   const handleSubmit = async (event) => {
@@ -38,10 +39,11 @@ const CheckoutForm = () => {
     setLoading(true);
 
     try {
+      // Create Payment Intent
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/create-payment-intent`,
         {
-          amount: order.total * 100,
+          amount: order.total * 100, // in cents
           currency: "usd",
           orderId: order._id,
         }
@@ -68,15 +70,28 @@ const CheckoutForm = () => {
         console.error(error);
       } else if (paymentIntent.status === "succeeded") {
         console.log("Payment successful!", paymentIntent);
+
+        // ✅ Record payment in backend
+        await axios.post(`${import.meta.env.VITE_API_URL}/payments`, {
+          orderId: order._id,
+          userId: order.buyerEmail, // or your user ID if available
+          productName: order.productName,
+          quantity: order.quantity,
+          total: order.total,
+          method: "card",
+          buyerName: order.buyerName,
+          buyerEmail: order.buyerEmail,
+        });
+
         Swal.fire({
-          position: "center",
           icon: "success",
           title: "Payment Successful!",
           text: `You have paid $${order.total.toLocaleString()}`,
-          showConfirmButton: true,
           confirmButtonText: "OK",
+        }).then(() => {
+          // ✅ Redirect to history page
+          navigate("/history");
         });
-        // TODO: update backend order status to 'paid'
       }
     } catch (err) {
       console.error(err);
@@ -116,12 +131,12 @@ const CheckoutForm = () => {
 
   return (
     <div className="max-w-lg mx-auto bg-white shadow-lg rounded-sm p-6 mt-12 mb-12 border border-gray-100">
-      <h2 className="text-xl md:text-2xl font-semibold text-center flex items-center justify-center mb-2 mb-6 text-gray-900">
+      <h2 className="text-xl md:text-2xl font-semibold text-center flex items-center justify-center mb-6 text-gray-900">
         <FaCreditCard className="w-6 h-6 text-primary mr-2" /> Complete Your
         Payment
       </h2>
 
-      {/* ✅ Order Summary */}
+      {/* Order Summary */}
       <div className="bg-gray-100 p-4 rounded-lg mb-6 text-gray-700">
         <h3 className="font-semibold text-lg mb-2">{order.productName}</h3>
         <p className="text-sm">Buyer: {order.buyerName}</p>
@@ -134,7 +149,7 @@ const CheckoutForm = () => {
         </p>
       </div>
 
-      {/* ✅ Stripe Payment Form */}
+      {/* Stripe Payment Form */}
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="border rounded-lg p-3 bg-gray-50">
           <CardElement options={cardStyle} />

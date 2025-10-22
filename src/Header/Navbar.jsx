@@ -52,7 +52,7 @@ const Navbar = () => {
           <NavLink to="/add-product">AddProduct</NavLink>
           <NavLink to="/myProducts">MyProducts</NavLink>
           {user && <NavLink to={`/cart/${user.email}`}>Cart</NavLink>}
-          {/* <NavLink to={`/cart/${user.email}`}>Cart</NavLink> */}
+          {user && <NavLink to={`/history`}>PaymentHistory</NavLink>}
         </div>
 
         {/* Mobile Hamburger Icon */}
