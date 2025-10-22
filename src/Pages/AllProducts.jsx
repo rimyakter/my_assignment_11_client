@@ -50,6 +50,7 @@ export default function AllProducts() {
   // ✅ Handle Buy logic (copied from ProductDetails)
   const handleBuy = async () => {
     document.getElementById("buy_modal").close();
+
     if (quantity < selectedProduct.minQty) {
       return Swal.fire(
         "Minimum Order Required",
@@ -59,7 +60,8 @@ export default function AllProducts() {
     }
 
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
+      // ✅ Save order and get response
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
         productId: selectedProduct._id,
         quantity,
         buyerName: user?.displayName,
@@ -68,17 +70,21 @@ export default function AllProducts() {
         address,
       });
 
+      // ✅ Extract order ID from backend response
+      const orderId = res.data._id || res.data.orderId;
+
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Your order Placed Successfully",
+        title: "Your order placed successfully",
         showConfirmButton: false,
         timer: 1500,
       });
 
-      document.getElementById("buy_modal").close();
-      navigate(`/cart/${user.email}`);
+      // ✅ Navigate to payment page
+      navigate(`/payment/${orderId}`);
     } catch (err) {
+      console.error(err);
       Swal.fire("Error", "Something went wrong", "error");
     }
   };

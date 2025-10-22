@@ -14,6 +14,7 @@ import AddProduct from "../Pages/AddProduct";
 import CartPage from "../Pages/CartPage";
 import MyProducts from "../Pages/MyProducts";
 import Loading from "../Pages/Home/Loading";
+import Payment from "../Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyProducts></MyProducts>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment/:paymentId",
+        element: (
+          <PrivateRoute>
+            <Payment></Payment>
           </PrivateRoute>
         ),
       },
