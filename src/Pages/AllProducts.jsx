@@ -76,7 +76,7 @@ export default function AllProducts() {
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Your order placed successfully",
+        title: "You added items in the cart successfully",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -311,7 +311,7 @@ export default function AllProducts() {
                   Cancel
                 </button>
                 <button className="btn btn-primary" onClick={handleBuy}>
-                  Confirm Buy
+                  Add To Cart
                 </button>
               </div>
             </>

@@ -51,7 +51,7 @@ const Navbar = () => {
           <NavLink to="/all-products">AllProducts</NavLink>
           <NavLink to="/add-product">AddProduct</NavLink>
           <NavLink to="/myProducts">MyProducts</NavLink>
-          {user && <NavLink to={`/cart/${user.email}`}>Cart</NavLink>}
+          {user && <NavLink to={`/cart/${user.email}`}>MyCart</NavLink>}
           {user && <NavLink to={`/history`}>PaymentHistory</NavLink>}
         </div>
 

@@ -31,6 +31,7 @@ const CheckoutForm = () => {
     enabled: !!paymentId,
   });
 
+  // Handle Stripe payment submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     setErrorMsg("");
@@ -39,27 +40,34 @@ const CheckoutForm = () => {
     setLoading(true);
 
     try {
+      // Determine total and quantity for cart or single order
+      const total = order?.total ?? order?.totalAmount ?? 0;
+      const quantity =
+        order?.quantity ??
+        order?.items?.reduce((sum, item) => sum + (item.quantity || 0), 0) ??
+        0;
+
       // Create Payment Intent
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/create-payment-intent`,
         {
-          amount: order.total * 100, // in cents
+          amount: total * 100, // Stripe expects cents
           currency: "usd",
           orderId: order._id,
         }
       );
 
       const clientSecret = data.clientSecret;
-
       const card = elements.getElement(CardElement);
+
       const { paymentIntent, error } = await stripe.confirmCardPayment(
         clientSecret,
         {
           payment_method: {
             card,
             billing_details: {
-              name: order.buyerName,
-              email: order.buyerEmail,
+              name: order?.buyerName,
+              email: order?.buyerEmail,
             },
           },
         }
@@ -71,26 +79,27 @@ const CheckoutForm = () => {
       } else if (paymentIntent.status === "succeeded") {
         console.log("Payment successful!", paymentIntent);
 
-        // ✅ Record payment in backend
+        // Record payment in backend
         await axios.post(`${import.meta.env.VITE_API_URL}/payments`, {
           orderId: order._id,
-          userId: order.buyerEmail, // or your user ID if available
-          productName: order.productName,
-          quantity: order.quantity,
-          total: order.total,
+          userId: order?.buyerEmail,
+          productName:
+            order?.productName ??
+            (order?.items ? `Cart (${order.items.length} items)` : "Order"),
+          quantity,
+          total,
           method: "card",
-          buyerName: order.buyerName,
-          buyerEmail: order.buyerEmail,
+          buyerName: order?.buyerName,
+          buyerEmail: order?.buyerEmail,
         });
 
         Swal.fire({
           icon: "success",
           title: "Payment Successful!",
-          text: `You have paid $${order.total.toLocaleString()}`,
+          text: `You have paid $${total.toLocaleString()}`,
           confirmButtonText: "OK",
         }).then(() => {
-          // ✅ Redirect to history page
-          navigate("/history");
+          navigate("/history"); // Redirect to history page
         });
       }
     } catch (err) {
@@ -129,6 +138,16 @@ const CheckoutForm = () => {
       <p className="text-center text-red-500">Failed to load payment info.</p>
     );
 
+  // Safely compute values for display
+  const total = order?.total ?? order?.totalAmount ?? 0;
+  const quantity =
+    order?.quantity ??
+    order?.items?.reduce((sum, item) => sum + (item.quantity || 0), 0) ??
+    0;
+  const productName =
+    order?.productName ??
+    (order?.items ? `Cart (${order.items.length} items)` : "Order");
+
   return (
     <div className="max-w-lg mx-auto bg-white shadow-lg rounded-sm p-6 mt-12 mb-12 border border-gray-100">
       <h2 className="text-xl md:text-2xl font-semibold text-center flex items-center justify-center mb-6 text-gray-900">
@@ -138,14 +157,14 @@ const CheckoutForm = () => {
 
       {/* Order Summary */}
       <div className="bg-gray-100 p-4 rounded-lg mb-6 text-gray-700">
-        <h3 className="font-semibold text-lg mb-2">{order.productName}</h3>
-        <p className="text-sm">Buyer: {order.buyerName}</p>
-        <p className="text-sm">Quantity: {order.quantity}</p>
+        <h3 className="font-semibold text-lg mb-2">{productName}</h3>
+        <p className="text-sm">Buyer: {order?.buyerName}</p>
+        <p className="text-sm">Quantity: {quantity}</p>
         <p className="text-sm">
-          Price per unit: ${(order.total / order.quantity).toFixed(2)}
+          Price per unit: ${quantity ? (total / quantity).toFixed(2) : 0}
         </p>
         <p className="font-semibold text-primary mt-2 text-lg">
-          Total: ${order.total.toLocaleString()}
+          Total: ${total.toLocaleString()}
         </p>
       </div>
 
@@ -168,7 +187,7 @@ const CheckoutForm = () => {
               : "bg-gradient-to-r from-[#EB5E28] to-[#ff7f50] hover:opacity-90 shadow-md"
           }`}
         >
-          {loading ? "Processing..." : `Pay $${order.total.toLocaleString()}`}
+          {loading ? "Processing..." : `Pay $${total.toLocaleString()}`}
         </button>
       </form>
     </div>
