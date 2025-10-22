@@ -12,7 +12,7 @@ import { Link } from "react-router";
 const slides = [
   {
     image: slider1,
-    title: "Welcome to B2B Wholesale",
+    title: "Welcome to Wholesale  Avenue",
     subtitle: "We have a special offer for our new customer in first purchase",
     buttonText: "Buy Now",
     buttonLink: "/categories",

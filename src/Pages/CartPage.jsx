@@ -139,7 +139,7 @@ export default function CartPage() {
               </p>
               <button
                 onClick={handleProceedToBuy}
-                className="bg-[#EB5E28] text-white px-6 py-2 rounded-md font-medium hover:bg-[#d94f1c] transition-all duration-300 shadow-md hover:shadow-lg"
+                className="bg-[#EB5E28] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#d94f1c] transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Proceed to Buy
               </button>
