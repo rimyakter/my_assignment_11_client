@@ -48,6 +48,7 @@ const Navbar = () => {
           data-aos-delay="200"
         >
           <NavLink to="/">Home</NavLink>
+          <NavLink to="/aboutUs">AboutUs</NavLink>
           <NavLink to="/categories">Categories</NavLink>
           <NavLink to="/all-products">AllProducts</NavLink>
 
@@ -131,6 +132,13 @@ const Navbar = () => {
         >
           <NavLink to="/" onClick={() => setMenuOpen(false)} className="block">
             Home
+          </NavLink>
+          <NavLink
+            to="/aboutUs"
+            onClick={() => setMenuOpen(false)}
+            className="block"
+          >
+            AboutUs
           </NavLink>
           <NavLink
             to="/categories"

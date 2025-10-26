@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Link } from "react-router";
+import { FaShoppingCart, FaSearch, FaTags } from "react-icons/fa"; // ✅ Added icons
 
 const slides = [
   {
@@ -16,6 +17,7 @@ const slides = [
     subtitle: "We have a special offer for our new customer in first purchase",
     buttonText: "Buy Now",
     buttonLink: "/categories",
+    icon: <FaShoppingCart className="inline-block ml-2" />,
   },
   {
     image: slider2,
@@ -24,13 +26,15 @@ const slides = [
       "We search for good products and provide good services through years",
     buttonText: "Explore More",
     buttonLink: "/all-products",
+    icon: <FaSearch className="inline-block ml-2" />,
   },
   {
     image: slider3,
     title: "Sale! Sale! Sale!",
     subtitle: "We have a lot of different products on sale every weekend",
     buttonText: "See More",
-    buttonLink: "/add-product",
+    buttonLink: "/all-products",
+    icon: <FaTags className="inline-block ml-2" />,
   },
 ];
 
@@ -44,7 +48,7 @@ const SwiperSlider = () => {
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        autoplay={{ delay: 1500 }}
+        autoplay={{ delay: 2500 }}
         loop={true}
       >
         {slides.map((slide, index) => (
@@ -68,9 +72,9 @@ const SwiperSlider = () => {
                 </p>
                 <Link
                   to={slide.buttonLink}
-                  className="bg-primary hover:bg-primary transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base"
+                  className="bg-primary hover:bg-primary transition px-6 py-2 mb-3 text-white rounded-lg font-medium text-sm sm:text-base flex items-center justify-center"
                 >
-                  {slide.buttonText}
+                  {slide.buttonText} {slide.icon}
                 </Link>
               </div>
             </div>

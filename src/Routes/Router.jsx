@@ -20,6 +20,7 @@ import DashboardLayout from "../Admin/DashboardLayout";
 import DashboardHome from "../Admin/DashboardHome";
 import AdminAllProducts from "../Admin/AdminAllProducts";
 import UserPaymentHistory from "../component/UserPaymentHistory";
+import AboutUs from "../Pages/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home></Home>,
+      },
+      {
+        path: "/aboutUs",
+        element: <AboutUs></AboutUs>,
       },
       {
         path: "/categories",
