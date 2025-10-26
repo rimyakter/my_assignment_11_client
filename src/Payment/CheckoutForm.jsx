@@ -99,7 +99,7 @@ const CheckoutForm = () => {
           text: `You have paid $${total.toLocaleString()}`,
           confirmButtonText: "OK",
         }).then(() => {
-          navigate("/history"); // Redirect to history page
+          navigate("/history/:email"); // Redirect to history page
         });
       }
     } catch (err) {
