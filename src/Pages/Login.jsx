@@ -122,7 +122,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={fillAdminCredentials}
-                    className="btn btn-sm btn-secondary"
+                    className="btn btn-sm btn-primary"
                   >
                     Admin Credential
                   </button>
@@ -132,7 +132,7 @@ const Login = () => {
                   Don't Have An Account?{" "}
                   <Link
                     to="/register"
-                    className="text-blue-700 font-bold text-sm"
+                    className="text-primary font-bold text-sm"
                   >
                     Register
                   </Link>
