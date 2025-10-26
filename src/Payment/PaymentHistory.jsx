@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FaMoneyBillWave } from "react-icons/fa";
 
 const PaymentHistory = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Number of items per page
+
   const {
     data: payments,
     isLoading,
@@ -31,8 +34,23 @@ const PaymentHistory = () => {
       </p>
     );
 
+  // ✅ Pagination logic
+  const totalPayments = payments?.length || 0;
+  const totalPages = Math.ceil(totalPayments / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentPayments = payments?.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
-    <div className="w-11/12 mx-auto my-12 ">
+    <div className="w-11/12 mx-auto my-12">
       {/* ✅ Title Section */}
       <div className="text-center mb-10">
         <div className="flex justify-center items-center gap-3 mb-3">
@@ -52,53 +70,92 @@ const PaymentHistory = () => {
           No payments yet.
         </p>
       ) : (
-        <div className="overflow-x-auto  rounded-sm shadow-sm border border-gray-50">
-          <table className="w-full  text-sm text-gray-900">
-            <thead className="  uppercase text-xs tracking-wider">
-              <tr>
-                <th className="px-5 py-3 text-left">Product</th>
-                <th className="px-5 py-3 text-center">Quantity</th>
-                <th className="px-5 py-3 text-right">Amount</th>
-                <th className="px-5 py-3 text-left">Buyer</th>
-                <th className="px-5 py-3 text-center">Status</th>
-                <th className="px-5 py-3 text-center">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payments.map((p, index) => (
-                <tr
-                  key={p._id}
-                  className={`border-t hover:bg-gray-50 transition ${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
-                  }`}
-                >
-                  <td className="px-5 py-3 font-medium">
-                    {p.productName ?? "-"}
-                  </td>
-                  <td className="px-5 py-3 text-center">{p.quantity ?? "-"}</td>
-                  <td className="px-5 py-3 text-right font-semibold text-gray-800">
-                    ${p.total?.toLocaleString() ?? 0}
-                  </td>
-                  <td className="px-5 py-3">{p.buyerName ?? "-"}</td>
-                  <td className="px-5 py-3 text-center">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        p.status === "paid"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                    >
-                      {p.status ?? "-"}
-                    </span>
-                  </td>
-                  <td className="px-5 py-3 text-center">
-                    {p.timestamp ? new Date(p.timestamp).toLocaleString() : "-"}
-                  </td>
+        <>
+          <div className="overflow-x-auto rounded-sm shadow-sm border border-gray-50">
+            <table className="w-full text-sm text-gray-900">
+              <thead className="uppercase text-xs tracking-wider">
+                <tr>
+                  <th className="px-5 py-3 text-left">Product</th>
+                  <th className="px-5 py-3 text-center">Quantity</th>
+                  <th className="px-5 py-3 text-right">Amount</th>
+                  <th className="px-5 py-3 text-left">Buyer</th>
+                  <th className="px-5 py-3 text-center">Status</th>
+                  <th className="px-5 py-3 text-center">Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {currentPayments.map((p, index) => (
+                  <tr
+                    key={p._id}
+                    className={`border-t hover:bg-gray-50 transition ${
+                      index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
+                    }`}
+                  >
+                    <td className="px-5 py-3 font-medium">
+                      {p.productName ?? "-"}
+                    </td>
+                    <td className="px-5 py-3 text-center">
+                      {p.quantity ?? "-"}
+                    </td>
+                    <td className="px-5 py-3 text-right font-semibold text-gray-800">
+                      ${p.total?.toLocaleString() ?? 0}
+                    </td>
+                    <td className="px-5 py-3">{p.buyerName ?? "-"}</td>
+                    <td className="px-5 py-3 text-center">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          p.status === "paid"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {p.status ?? "-"}
+                      </span>
+                    </td>
+                    <td className="px-5 py-3 text-center">
+                      {p.timestamp
+                        ? new Date(p.timestamp).toLocaleString()
+                        : "-"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* ✅ Pagination Controls */}
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-3 py-1 text-sm rounded-md border disabled:opacity-50 hover:bg-gray-100"
+            >
+              Previous
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
+                className={`px-3 py-1 text-sm rounded-md border ${
+                  currentPage === i + 1
+                    ? "bg-primary text-white border-primary"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 text-sm rounded-md border disabled:opacity-50 hover:bg-gray-100"
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

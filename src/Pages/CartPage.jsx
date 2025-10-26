@@ -158,8 +158,8 @@ export default function CartPage() {
       ) : (
         <div className="w-11/12 mx-auto bg-gray-100 p-6 rounded-sm mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cartItems.map((item) => (
-            <div key={item._id} className="card bg-base-100 shadow-xl">
-              <figure className="h-40">
+            <div key={item._id} className="card bg-white shadow-xl">
+              <figure className="h-40 w-50 mx-auto bg-gray-100 mt-6 rounded-xl">
                 <img
                   src={item.productImage}
                   alt={item.productName}
@@ -178,10 +178,10 @@ export default function CartPage() {
                   <span className="font-semibold">Quantity:</span>{" "}
                   {item.quantity}
                 </p>
-                <p className="text-sm">
+                {/* <p className="text-sm">
                   <span className="font-semibold">Category:</span>{" "}
                   {item.category}
-                </p>
+                </p> */}
                 <p className="text-sm">
                   <span className="font-semibold">Total:</span> ${item.total}
                 </p>
@@ -193,7 +193,7 @@ export default function CartPage() {
                 <div className="card-actions justify-end mt-4">
                   <button
                     onClick={() => handleRemove(item._id)}
-                    className="btn text-white bg-[#f53b57] btn-sm gap-2 transition-all duration-300 hover:scale-105"
+                    className="btn text-white bg-[#f53b57] rounded-2xl btn-sm gap-1 transition-all duration-300 hover:scale-105"
                   >
                     <FiTrash2 /> Cancel Order
                   </button>

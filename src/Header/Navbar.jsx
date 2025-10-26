@@ -9,6 +9,7 @@ import { AuthContext } from "../Context/AuthContext";
 import NavLogo from "./NavLogo";
 
 const Navbar = () => {
+  const adminEmail = "asa@gmail.com";
   const [menuOpen, setMenuOpen] = useState(false);
   const [success, setSuccess] = useState(null);
 
@@ -49,10 +50,14 @@ const Navbar = () => {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/categories">Categories</NavLink>
           <NavLink to="/all-products">AllProducts</NavLink>
-          <NavLink to="/add-product">AddProduct</NavLink>
-          <NavLink to="/myProducts">MyProducts</NavLink>
+
           {user && <NavLink to={`/cart/${user.email}`}>MyCart</NavLink>}
-          {user && <NavLink to={`/history`}>PaymentHistory</NavLink>}
+          {user && (
+            <NavLink to={`/history/${user.email}`}>PaymentHistory</NavLink>
+          )}
+          {user && user.email === adminEmail && (
+            <NavLink to="/dashboard">AdminDashboard</NavLink>
+          )}
         </div>
 
         {/* Mobile Hamburger Icon */}
@@ -120,7 +125,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <div
-          className="md:hidden bg-[#023047] text-white px-6 py-4 space-y-3"
+          className="md:hidden bg-[#023047] text-white px-6 py-2 space-y-3"
           data-aos="fade-in"
           data-aos-duration="500"
         >
@@ -162,6 +167,24 @@ const Navbar = () => {
               className="block"
             >
               Cart
+            </NavLink>
+          )}
+          {user && (
+            <NavLink
+              to={`/history/${user.email}`}
+              onClick={() => setMenuOpen(false)}
+              className="block"
+            >
+              PaymentHistory
+            </NavLink>
+          )}
+          {user && user.email === adminEmail && (
+            <NavLink
+              to="/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="block"
+            >
+              AdminDashboard
             </NavLink>
           )}
 

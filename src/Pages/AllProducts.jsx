@@ -8,11 +8,12 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import {
   FaThList,
-  FaBuilding,
   FaTag,
   FaDollarSign,
   FaPlus,
   FaMinus,
+  FaShoppingCart,
+  FaBolt,
 } from "react-icons/fa";
 import SearchBar from "../component/SearchBar";
 
@@ -30,25 +31,55 @@ export default function AllProducts() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const axiosSecure = useAxiosSecure();
 
+  const [quantities, setQuantities] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+
   useEffect(() => {
     setLoading(true);
     axiosSecure
       .get(`/products`)
-      .then((res) => setProducts(res.data))
+      .then((res) => {
+        setProducts(res.data);
+        const qtyMap = {};
+        res.data.forEach((p) => (qtyMap[p._id] = p.minQty || 1));
+        setQuantities(qtyMap);
+      })
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [axiosSecure]);
 
   const displayedProducts = showAvailableOnly
-    ? products.filter((p) => p.minQty > 100)
+    ? products.filter((p) => p.mainQuantity > 400)
     : products;
 
-  // ✅ Use filteredProducts if any search is done
   const productsToShow =
     filteredProducts.length > 0 ? filteredProducts : displayedProducts;
 
-  const increase = () => setQuantity((q) => q + 1);
-  const decrease = () => setQuantity((q) => Math.max(1, q - 1));
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = productsToShow.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(productsToShow.length / productsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleIncrease = (id) => {
+    setQuantities((prev) => ({ ...prev, [id]: prev[id] + 1 }));
+  };
+
+  const handleDecrease = (id, minQty) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [id]: Math.max(minQty, prev[id] - 1),
+    }));
+  };
 
   const handleBuy = async () => {
     document.getElementById("buy_modal").close();
@@ -76,7 +107,7 @@ export default function AllProducts() {
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "You added items in the cart successfully",
+        title: "Order placed successfully!",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -88,7 +119,31 @@ export default function AllProducts() {
     }
   };
 
-  // ✅ Search handler
+  const handleAddToCart = async (product) => {
+    const selectedQty = quantities[product._id] || product.minQty || 1;
+    try {
+      await axios.post(`${import.meta.env.VITE_API_URL}/orders`, {
+        productId: product._id,
+        quantity: selectedQty,
+        buyerName: user?.displayName,
+        buyerEmail: user?.email,
+      });
+
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Added to cart successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigate(`/cart/${user?.email}`);
+    } catch (err) {
+      console.error(err);
+      Swal.fire("Error", "Failed to add to cart", "error");
+    }
+  };
+
   const handleSearch = (query) => {
     const lowerQuery = query.toLowerCase();
     const filtered = products.filter((product) =>
@@ -104,6 +159,7 @@ export default function AllProducts() {
       <Helmet>
         <title>Wholesale Avenue || All Products</title>
       </Helmet>
+
       <h1 className="text-xl md:text-3xl font-bold mt-12 text-center gap-3 flex items-center justify-center">
         <FaThList className="text-primary" />
         All Products Page
@@ -115,143 +171,125 @@ export default function AllProducts() {
       {/* Filters and Search */}
       <div className="mb-6 flex flex-col md:flex-row gap-3 justify-between items-center">
         <button
-          onClick={() => setShowAvailableOnly(!showAvailableOnly)}
+          onClick={() => {
+            setShowAvailableOnly(!showAvailableOnly);
+            setCurrentPage(1);
+          }}
           className="bg-primary text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
         >
           {showAvailableOnly ? "Show All Products" : "Show Available Products"}
         </button>
 
-        <div className="flex-1 md:mx-6">
-          {/* Search Bar */}
+        <div className="flex">
           <SearchBar onSearch={handleSearch} />
         </div>
-
-        <select
-          value={view}
-          onChange={(e) => setView(e.target.value)}
-          className="select select-bordered w-40"
-        >
-          <option value="card">Card View</option>
-          <option value="table">Table View</option>
-        </select>
       </div>
 
       {loading ? (
         <div className="flex justify-center items-center py-10">
           <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
-      ) : productsToShow.length === 0 ? (
+      ) : currentProducts.length === 0 ? (
         <p className="text-gray-500 text-center">No products found.</p>
       ) : view === "card" ? (
-        <div className="bg-gray-100 p-6 rounded-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productsToShow.map((p) => (
+        <div className="bg-gray-100 p-6 rounded-sm grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+          {currentProducts.map((p) => (
             <div
               key={p._id}
-              className="bg-white rounded-sm shadow-sm p-4 space-y-2"
+              className="bg-white rounded-sm shadow-sm p-4 space-y-1 transition "
             >
               <img
                 src={p.image}
                 alt={p.name}
-                className="h-48 w-full object-cover rounded-sm"
+                className="h-36 w-full object-contain rounded-sm bg-gray-100 p-3 hover:bg-gray-100 transition"
               />
-              <h2 className="text-xl font-semibold mt-2">{p.name}</h2>
 
-              <p className="text-gray-600 flex items-center gap-2">
-                <FaBuilding className="text-primary" /> {p.brand}
-              </p>
-              <p className="text-gray-500 flex items-center gap-2">
+              <h2 className="text-lg font-semibold mt-2">{p.name}</h2>
+
+              <p className="text-gray-400 flex items-center gap-2">
                 <FaTag className="text-primary" /> {p.category}
               </p>
-              <p className="text-gray-500 flex items-center gap-2">
+              <p className="text-gray-900 flex items-center gap-2 font-bold">
                 <FaDollarSign className="text-primary" /> ${p.price}
               </p>
 
-              <ReactStars
-                count={5}
-                value={Number(p.rating) || 0}
-                size={24}
-                edit={false}
-                half={true}
-                color2={"#d9500b"}
-              />
+              {/* ✅ Professional Quantity Bar */}
+              <div className="flex items-center justify-center mt-2">
+                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-sm overflow-hidden">
+                  <button
+                    onClick={() => handleDecrease(p._id, p.minQty)}
+                    className="px-3 py-1 hover:bg-gray-100 text-gray-700 transition"
+                  >
+                    <FaMinus size={10} />
+                  </button>
 
-              <div className="flex gap-3 mt-4 justify-between">
-                <button
-                  onClick={() => navigate(`/update-product/${p._id}`)}
-                  className="text-primary bg-white border border-primary px-4 py-2 rounded-sm hover:bg-primary hover:text-white hover:cursor-pointer"
-                >
-                  Update
-                </button>
+                  <input
+                    type="number"
+                    value={quantities[p._id] || p.minQty}
+                    onChange={(e) =>
+                      setQuantities((prev) => ({
+                        ...prev,
+                        [p._id]: Math.max(p.minQty, Number(e.target.value)),
+                      }))
+                    }
+                    className="w-16 text-center border-x border-gray-200 bg-white py-1 text-sm font-semibold outline-none"
+                    min={p.minQty}
+                  />
 
+                  <button
+                    onClick={() => handleIncrease(p._id)}
+                    className="px-3 py-2 hover:bg-gray-100 text-gray-700 transition"
+                  >
+                    <FaPlus size={12} />
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-center text-xs text-gray-400">
+                Min: {p.minQty}
+              </p>
+
+              {/* Buttons with Icons */}
+              <div className="flex flex-col gap-3 mt-4 justify-between">
                 <button
                   onClick={() => {
                     setSelectedProduct(p);
-                    setQuantity(p.minQty || 1);
+                    setQuantity(quantities[p._id] || p.minQty);
                     document.getElementById("buy_modal").showModal();
                   }}
-                  className="bg-white text-primary border border-primary px-4 py-2 rounded-sm hover:bg-primary hover:text-white hover:cursor-pointer"
+                  className="bg-white text-primary border border-primary px-4 py-2 rounded-2xl hover:bg-primary hover:text-white transition flex items-center justify-center gap-2"
                 >
-                  Buy Now
+                  <FaBolt /> Buy Now
+                </button>
+
+                <button
+                  onClick={() => handleAddToCart(p)}
+                  className="bg-primary text-white px-4 py-2 rounded-2xl hover:bg-white hover:text-primary hover:border hover:border-primary transition flex items-center justify-center gap-2"
+                >
+                  <FaShoppingCart /> Add to Cart
                 </button>
               </div>
             </div>
           ))}
         </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table w-full border border-gray-100 p-6">
-            <thead className="bg-gray-100">
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Min Qty</th>
-                <th>Rating</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {productsToShow.map((p) => (
-                <tr key={p._id} className="hover">
-                  <td>
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="h-16 w-16 object-cover rounded-md"
-                    />
-                  </td>
-                  <td>{p.name}</td>
-                  <td>{p.brand}</td>
-                  <td>{p.category}</td>
-                  <td>${p.price}</td>
-                  <td>{p.minQty}</td>
-                  <td>{p.rating || 0}</td>
-                  <td className="flex gap-2">
-                    <div className="flex gap-3 mt-4">
-                      <button
-                        onClick={() => navigate(`/update-product/${p._id}`)}
-                        className="btn btn-sm bg-primary text-white hover:cursor-pointer"
-                      >
-                        Update
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedProduct(p);
-                          setQuantity(p.minQty || 1);
-                          document.getElementById("buy_modal").showModal();
-                        }}
-                        className="btn btn-sm bg-primary text-white hover:cursor-pointer"
-                      >
-                        Buy Now
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      ) : null}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-3 py-1 border rounded-md ${
+                currentPage === i + 1
+                  ? "bg-primary text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
         </div>
       )}
 
@@ -264,31 +302,43 @@ export default function AllProducts() {
                 Buy {selectedProduct.name}
               </h3>
 
-              <div className="flex items-center gap-3 mb-4">
-                <button
-                  type="button"
-                  onClick={decrease}
-                  className="btn btn-outline btn-square"
-                >
-                  <FaMinus />
-                </button>
-                <input
-                  type="number"
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="input input-bordered w-20 text-center"
-                />
-                <button
-                  type="button"
-                  onClick={increase}
-                  className="btn btn-outline btn-square"
-                >
-                  <FaPlus />
-                </button>
-                <span className="ml-3 text-sm text-gray-600">
-                  Min: {selectedProduct.minQty}
-                </span>
+              <div className="flex items-center justify-center mt-3">
+                <div className="flex items-center bg-gray-50 border border-gray-200 rounded-md overflow-hidden">
+                  <button
+                    onClick={() =>
+                      setQuantity((q) =>
+                        Math.max(selectedProduct.minQty, q - 1)
+                      )
+                    }
+                    className="px-3 py-2 hover:bg-gray-100 text-gray-700 transition"
+                  >
+                    <FaMinus size={12} />
+                  </button>
+
+                  <input
+                    type="number"
+                    value={quantity}
+                    onChange={(e) =>
+                      setQuantity(
+                        Math.max(selectedProduct.minQty, Number(e.target.value))
+                      )
+                    }
+                    className="w-14 text-center border-x border-gray-200 bg-white py-2 text-sm font-semibold outline-none"
+                    min={selectedProduct.minQty}
+                  />
+
+                  <button
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="px-3 py-2 hover:bg-gray-100 text-gray-700 transition"
+                  >
+                    <FaPlus size={12} />
+                  </button>
+                </div>
               </div>
+
+              <p className="text-center text-sm text-gray-500">
+                Minimum order: {selectedProduct.minQty}
+              </p>
 
               <input
                 type="text"
@@ -324,7 +374,7 @@ export default function AllProducts() {
                   Cancel
                 </button>
                 <button className="btn btn-primary" onClick={handleBuy}>
-                  Add To Cart
+                  Buy Now
                 </button>
               </div>
             </>

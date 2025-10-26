@@ -5,7 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import Swal from "sweetalert2";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { FaBoxOpen } from "react-icons/fa"; // ✅ only title icon kept
+import { FaBoxOpen, FaPlusCircle } from "react-icons/fa"; // ✅ only title icon kept
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -77,24 +77,21 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="py-12 bg-white rounded-sm shadow-sm">
+    <div className=" w-full">
       <Helmet>
         <title>Wholesale Avenue || Add Product</title>
       </Helmet>
 
       {/* Page Title */}
-      <h2 className="text-xl md:text-3xl font-bold mb-2 text-center text-gray-900 flex items-center justify-center gap-3">
+      <h2 className="text-xl md:text-3xl font-bold mb-6 text-center text-gray-900 flex items-center justify-center gap-3">
         <FaBoxOpen className="text-[#eb5e28] text-3xl" />
         Add Products
       </h2>
-      <p className="text-gray-500 text-center mb-8">
-        Fill in the details below to add your new product to the catalog
-      </p>
 
       {/* Two-Column Form */}
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-100 rounded-sm w-11/12 mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch"
+        className="w-full bg-gray-100 rounded-sm  mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch"
       >
         {/* Left Column */}
         <div className="space-y-4 flex flex-col justify-between">
@@ -212,9 +209,9 @@ const AddProduct = () => {
         <div className="md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
-            className="btn bg-[#eb5e28] text-white w-full md:w-1/2 hover:bg-[#eb5e28]/90 transition-all duration-300"
+            className="btn bg-[#eb5e28] flex gap-2 rounded-md text-white w-full md:w-1/3 hover:bg-[#eb5e28]/90 transition-all duration-300"
           >
-            Add Product
+            <FaPlusCircle className="text-white" /> Add Product
           </button>
         </div>
       </form>

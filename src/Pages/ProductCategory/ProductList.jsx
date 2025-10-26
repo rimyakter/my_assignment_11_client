@@ -9,6 +9,7 @@ import {
   FaBoxes,
   FaClipboardList,
   FaDollarSign,
+  FaEye,
 } from "react-icons/fa";
 
 export default function ProductList() {
@@ -71,30 +72,30 @@ export default function ProductList() {
               {product.mainQuantity}
             </p> */}
 
-            <p className="text-sm text-gray-500 flex items-center gap-2">
+            {/* <p className="text-sm text-gray-500 flex items-center gap-2">
               <FaClipboardList className="text-primary" /> Min Quantity:{" "}
               {product.minQty}
-            </p>
+            </p> */}
 
             <p className="font-bold text-lg mt-2 flex items-center gap-2">
               <FaDollarSign className="text-primary" /> {product.price}
             </p>
 
             {/* Rating with stars */}
-            <ReactStars
+            {/* <ReactStars
               count={5}
               value={Number(product.rating) || 0}
               size={24}
               edit={false}
               half={true}
               color2={"#d9500b"} // gold stars
-            />
+            /> */}
 
             <button
               onClick={() => navigate(`/product/${product._id}`)}
-              className="bg-primary text-white px-4 py-2 rounded-sm mt-3"
+              className="bg-primary text-white px-4 py-2 rounded-2xl hover:text-primary hover:bg-white hover:border hover:border-primary mt-3 flex items-center gap-2"
             >
-              View Detail
+              <FaEye /> View Detail
             </button>
           </div>
         ))}

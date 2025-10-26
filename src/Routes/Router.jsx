@@ -16,6 +16,10 @@ import MyProducts from "../Pages/MyProducts";
 import Loading from "../Pages/Home/Loading";
 import Payment from "../Payment/Payment";
 import PaymentHistory from "../Payment/PaymentHistory";
+import DashboardLayout from "../Admin/DashboardLayout";
+import DashboardHome from "../Admin/DashboardHome";
+import AdminAllProducts from "../Admin/AdminAllProducts";
+import UserPaymentHistory from "../component/UserPaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -66,14 +70,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "/add-product",
-        element: (
-          <PrivateRoute>
-            <AddProduct></AddProduct>
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "/add-product",
+      //   element: (
+      //     <PrivateRoute>
+      //       <AddProduct></AddProduct>
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/cart/:email",
         element: (
@@ -82,14 +86,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "/myProducts",
-        element: (
-          <PrivateRoute>
-            <MyProducts></MyProducts>
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "/myProducts",
+      //   element: (
+      //     <PrivateRoute>
+      //       <MyProducts></MyProducts>
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/payment/:paymentId",
         element: (
@@ -107,6 +111,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/history/:email",
+        element: (
+          <PrivateRoute>
+            <UserPaymentHistory></UserPaymentHistory>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "/register",
         element: <Register></Register>,
       },
@@ -117,6 +129,40 @@ export const router = createBrowserRouter([
       {
         path: "/*",
         element: <ErrorPage></ErrorPage>,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <DashboardLayout></DashboardLayout>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashboardHome></DashboardHome>,
+      },
+      {
+        path: "/dashboard/addProducts",
+        element: <AddProduct></AddProduct>,
+      },
+      {
+        path: "/dashboard/myProducts",
+        element: <MyProducts></MyProducts>,
+      },
+      {
+        path: "/dashboard/adminAllProducts",
+        element: <AdminAllProducts></AdminAllProducts>,
       },
     ],
   },

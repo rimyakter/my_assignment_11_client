@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import SocialLogin from "./SocialLogin";
 import lottieLogin from "../assets/Lottie/login.json";
 import Lottie from "lottie-react";
@@ -12,27 +12,29 @@ const Login = () => {
   const navigate = useNavigate();
   const from = location.state || "/";
   const { googleLogin, signInUser } = useContext(AuthContext);
+
+  // Refs for email and password inputs
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
     console.log(email, password);
-    //Sign-In or Login user using Firebase Auth
+
     signInUser(email, password)
       .then((result) => {
-        const user = result.user;
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "You Logged In  Successfully",
+          title: "You Logged In Successfully",
           showConfirmButton: false,
           timer: 1500,
         });
-        //navigate user after use private route
         navigate(from);
       })
-      .catch((error) => {
+      .catch(() => {
         Swal.fire({
           position: "top-end",
           icon: "error",
@@ -42,8 +44,6 @@ const Login = () => {
         });
       });
   };
-
-  ///Google Login or Google Sign-In
 
   const handleGoogleLogin = () => {
     googleLogin()
@@ -56,7 +56,7 @@ const Login = () => {
         };
         axios
           .post(`${import.meta.env.VITE_API_URL}/users`, saveUser)
-          .then((res) => {
+          .then(() => {
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -64,7 +64,6 @@ const Login = () => {
               showConfirmButton: false,
               timer: 1000,
             });
-            //navigate user after use private route
             navigate(from);
           });
       })
@@ -78,6 +77,15 @@ const Login = () => {
         });
       });
   };
+
+  // Autofill admin credentials
+  const fillAdminCredentials = () => {
+    if (emailRef.current && passwordRef.current) {
+      emailRef.current.value = "asa@gmail.com";
+      passwordRef.current.value = "Aa123456";
+    }
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -86,7 +94,7 @@ const Login = () => {
             style={{ width: "300px" }}
             animationData={lottieLogin}
             loop={true}
-          ></Lottie>
+          />
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
@@ -97,6 +105,7 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
+                  ref={emailRef}
                   className="input"
                   placeholder="Email"
                 />
@@ -104,14 +113,22 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
+                  ref={passwordRef}
                   className="input"
                   placeholder="Password"
                 />
-                <div>
+                <div className="flex justify-between items-center mt-2 mb-4">
                   <a className="link link-hover">Forgot password?</a>
+                  <button
+                    type="button"
+                    onClick={fillAdminCredentials}
+                    className="btn btn-sm btn-secondary"
+                  >
+                    Admin Credential
+                  </button>
                 </div>
-                <button className="btn btn-neutral mt-4">Login</button>
-                <p className="text-xs ">
+                <button className="btn btn-neutral mt-2 w-full">Login</button>
+                <p className="text-xs mt-2 text-center">
                   Don't Have An Account?{" "}
                   <Link
                     to="/register"
@@ -122,8 +139,8 @@ const Login = () => {
                 </p>
               </fieldset>
             </form>
-            <div onClick={handleGoogleLogin}>
-              <SocialLogin></SocialLogin>
+            <div onClick={handleGoogleLogin} className="mt-3">
+              <SocialLogin />
             </div>
           </div>
         </div>
