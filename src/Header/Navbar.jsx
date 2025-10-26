@@ -154,20 +154,7 @@ const Navbar = () => {
           >
             All-Products
           </NavLink>
-          <NavLink
-            to="/add-product"
-            onClick={() => setMenuOpen(false)}
-            className="block"
-          >
-            Add-Product
-          </NavLink>
-          <NavLink
-            to="/myProducts"
-            onClick={() => setMenuOpen(false)}
-            className="block"
-          >
-            MyProducts
-          </NavLink>
+
           {user && (
             <NavLink
               to={`/cart/${user.email}`}
