@@ -5,8 +5,8 @@ import { Link } from "react-router";
 const NavLogo = () => {
   return (
     <div className="flex items-center space-x-2 cursor-pointer">
-      <FiShoppingBag className="text-2xl text-primary" />
-      <Link to="/" className="text-xl font-bold text-primary">
+      <FiShoppingBag className="text-2xl text-white" />
+      <Link to="/" className="text-xl font-bold text-white">
         Wholesale Avenue
       </Link>
     </div>

@@ -69,7 +69,7 @@ const DashboardLayout = () => {
         } w-64`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <div className="font-bold text-xl bg-gray-100 px-2 py-3 rounded-sm flex items-center gap-2">
+          <div className="font-bold text-xl bg-primary px-2 py-3 rounded-sm flex items-center gap-2">
             <NavLogo />
           </div>
           <button

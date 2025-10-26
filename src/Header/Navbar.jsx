@@ -34,7 +34,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="nav header text-white bg-[#023047] shadow-md w-full sticky top-0 z-50"
+      className="nav header text-white bg-[#064232] shadow-md w-full sticky top-0 z-50"
       data-aos="fade-down"
     >
       <div className="w-11/12 mx-auto py-4 flex items-center justify-between">

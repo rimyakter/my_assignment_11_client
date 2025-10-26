@@ -63,8 +63,8 @@ const Testimonials = () => {
             <SwiperSlide key={i} className="flex">
               <div className="relative flex flex-col justify-between bg-white border border-gray-200 rounded-xl shadow-sm p-10 pt-20 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full">
                 {/* Quote Icon */}
-                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border-4 border-orange-500 rounded-full p-4 shadow-md">
-                  <FaQuoteRight className="text-orange-500 text-3xl" />
+                <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border-4 border-primary rounded-full p-4 shadow-md">
+                  <FaQuoteRight className="text-primary text-3xl" />
                 </div>
 
                 {/* Testimonial Text */}
@@ -97,7 +97,7 @@ const Testimonials = () => {
           margin: 0 6px !important;
         }
         .swiper-pagination-bullet-active {
-          background: linear-gradient(90deg, #f97316, #ea580c);
+          background: linear-gradient(90deg, #388e3c, #388e3c);
           transform: scale(1.25);
           box-shadow: 0 0 8px rgba(234, 88, 12, 0.5);
         }

@@ -84,7 +84,7 @@ const AddProduct = () => {
 
       {/* Page Title */}
       <h2 className="text-xl md:text-3xl font-bold mb-6 text-center text-gray-900 flex items-center justify-center gap-3">
-        <FaBoxOpen className="text-[#eb5e28] text-3xl" />
+        <FaBoxOpen className="text-primary text-3xl" />
         Add Products
       </h2>
 
@@ -209,7 +209,7 @@ const AddProduct = () => {
         <div className="md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
-            className="btn bg-[#eb5e28] flex gap-2 rounded-md text-white w-full md:w-1/3 hover:bg-[#eb5e28]/90 transition-all duration-300"
+            className="btn bg-primary flex gap-2 rounded-md text-white w-full md:w-1/3 hover:bg-primary transition-all duration-300"
           >
             <FaPlusCircle className="text-white" /> Add Product
           </button>

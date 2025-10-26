@@ -183,7 +183,7 @@ export default function ProductDetails() {
           <div className="flex flex-col md:flex-row gap-3 mt-6">
             <button
               onClick={() => document.getElementById("buy_modal").showModal()}
-              className="bg-primary text-white px-6 py-3 rounded-lg shadow-md font-semibold w-full md:w-1/2 hover:bg-[#EB5E28]/90 transition-colors flex items-center justify-center gap-2"
+              className="bg-primary text-white px-6 py-3 rounded-lg shadow-md font-semibold w-full md:w-1/2 hover:bg-primary transition-colors flex items-center justify-center gap-2"
             >
               <FaDollarSign /> Buy Now
             </button>

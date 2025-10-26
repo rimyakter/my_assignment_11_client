@@ -115,7 +115,7 @@ export default function CartPage() {
             {/* Left: Info */}
             <div className="flex items-center gap-4">
               <div className="bg-[#EB5E28]/10 p-3 rounded-full">
-                <FaShoppingCart className="text-[#EB5E28] text-3xl" />
+                <FaShoppingCart className="text-primary text-3xl" />
               </div>
               <div>
                 <h3 className="text-xl md:text-2xl font-bold text-gray-800">
@@ -133,13 +133,13 @@ export default function CartPage() {
             <div className="text-right space-y-2">
               <p className="text-gray-700 text-lg font-semibold">
                 Total Amount:{" "}
-                <span className="text-[#EB5E28] font-bold ml-2">
+                <span className="text-primary font-bold ml-2">
                   ${totalAmount.toFixed(2)}
                 </span>
               </p>
               <button
                 onClick={handleProceedToBuy}
-                className="bg-[#EB5E28] text-white px-6 py-2 rounded-sm font-medium hover:bg-[#d94f1c] transition-all duration-300 shadow-md hover:shadow-lg"
+                className="bg-primary text-white px-6 py-2 rounded-sm font-medium hover:bg-[#d94f1c] transition-all duration-300 shadow-md hover:shadow-lg"
               >
                 Proceed to Buy
               </button>
@@ -151,7 +151,7 @@ export default function CartPage() {
       {/* Loader */}
       {loading ? (
         <div className="flex justify-center items-center py-10">
-          <span className="loading loading-spinner loading-lg text-[#EB5E28]"></span>
+          <span className="loading loading-spinner loading-lg text-primary"></span>
         </div>
       ) : cartItems.length === 0 ? (
         <p className="text-lg text-gray-600 text-center">No orders found.</p>

@@ -96,7 +96,7 @@ export default function AdminAllProducts() {
 
         <button
           onClick={() => setShowAvailableOnly(!showAvailableOnly)}
-          className="bg-primary text-white px-4 py-2 rounded-sm hover:bg-[#EB5E28]/90"
+          className="bg-primary text-white px-4 py-2 rounded-sm hover:bg-primary"
         >
           {showAvailableOnly ? "Show All Products" : "Show Available Products"}
         </button>
