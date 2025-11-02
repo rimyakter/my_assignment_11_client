@@ -1,9 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link, NavLink } from "react-router";
 import loginImg from "../assets/user.png";
-
-import { FaBars, FaTimes } from "react-icons/fa";
-
+import { FaBars, FaTimes, FaShoppingCart } from "react-icons/fa"; // Added cart icon
 import Swal from "sweetalert2";
 import { AuthContext } from "../Context/AuthContext";
 import NavLogo from "./NavLogo";
@@ -34,7 +32,7 @@ const Navbar = () => {
 
   return (
     <div
-      className="nav header text-white bg-[#064232] shadow-md w-full sticky top-0 z-50"
+      className="nav header text-gray-700 h-18 text-sm font-semibold bg-white shadow-md w-full sticky top-0 z-50"
       data-aos="fade-down"
     >
       <div className="w-11/12 mx-auto py-4 flex items-center justify-between">
@@ -47,17 +45,56 @@ const Navbar = () => {
           data-aos="fade-left"
           data-aos-delay="200"
         >
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/aboutUs">AboutUs</NavLink>
-          <NavLink to="/categories">Categories</NavLink>
-          <NavLink to="/all-products">AllProducts</NavLink>
+          <NavLink
+            to="/"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/aboutUs"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            About
+          </NavLink>
+          <NavLink
+            to="/categories"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            Categories
+          </NavLink>
+          <NavLink
+            to="/all-products"
+            className="hover:text-primary transition-colors duration-300"
+          >
+            Shop
+          </NavLink>
 
-          {user && <NavLink to={`/cart/${user.email}`}>MyCart</NavLink>}
           {user && (
-            <NavLink to={`/history/${user.email}`}>PaymentHistory</NavLink>
+            <NavLink
+              to={`/history/${user.email}`}
+              className="hover:text-primary transition-colors duration-300"
+            >
+              History
+            </NavLink>
           )}
           {user && user.email === adminEmail && (
-            <NavLink to="/dashboard">AdminDashboard</NavLink>
+            <NavLink
+              to="/dashboard"
+              className="hover:text-primary transition-colors duration-300"
+            >
+              Dashboard
+            </NavLink>
+          )}
+
+          {/* Cart Icon instead of text */}
+          {user && (
+            <NavLink
+              to={`/cart/${user.email}`}
+              className="hover:text-primary  transition-colors duration-300 flex items-center"
+            >
+              <FaShoppingCart size={18} />
+            </NavLink>
           )}
         </div>
 
@@ -77,7 +114,7 @@ const Navbar = () => {
           <div className="flex flex-col items-center justify-center">
             <div className="relative group">
               <img
-                className="w-10 h-10 rounded-full border-2 border-base-300"
+                className="w-10 h-10 rounded-full border-2 border-primary"
                 src={user ? user?.photoURL : loginImg}
                 alt="User"
               />
@@ -97,7 +134,7 @@ const Navbar = () => {
               </div>
               <button
                 onClick={handleLogOut}
-                className="btn btn-sm bg-white text-black shadow-none"
+                className="btn btn-sm bg-white text-black shadow-none hover:bg-primary hover:text-white transition-colors duration-400"
               >
                 LogOut
               </button>
@@ -107,16 +144,16 @@ const Navbar = () => {
               <div className="flex space-x-1">
                 <Link
                   to="/login"
-                  className="btn btn-sm bg-white text-black shadow-none"
+                  className="btn btn-sm bg-white text-black shadow-none hover:text-primary transition-colors duration-300"
                 >
                   Login
-                </Link>{" "}
+                </Link>
                 <Link
                   to="/register"
-                  className="btn btn-sm bg-white text-black shadow-none"
+                  className="btn btn-sm bg-white text-black shadow-none hover:text-primary transition-colors duration-300"
                 >
                   Register
-                </Link>{" "}
+                </Link>
               </div>
             </>
           )}
@@ -130,56 +167,61 @@ const Navbar = () => {
           data-aos="fade-in"
           data-aos-duration="500"
         >
-          <NavLink to="/" onClick={() => setMenuOpen(false)} className="block">
+          <NavLink
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="block hover:text-primary transition-colors duration-300"
+          >
             Home
           </NavLink>
           <NavLink
             to="/aboutUs"
             onClick={() => setMenuOpen(false)}
-            className="block"
+            className="block hover:text-primary transition-colors duration-300"
           >
-            AboutUs
+            About
           </NavLink>
           <NavLink
             to="/categories"
             onClick={() => setMenuOpen(false)}
-            className="block"
+            className="block hover:text-primary transition-colors duration-300"
           >
             Categories
           </NavLink>
           <NavLink
             to="/all-products"
             onClick={() => setMenuOpen(false)}
-            className="block"
+            className="block hover:text-primary transition-colors duration-300"
           >
-            All-Products
+            Shop
           </NavLink>
 
           {user && (
             <NavLink
-              to={`/cart/${user.email}`}
-              onClick={() => setMenuOpen(false)}
-              className="block"
-            >
-              Cart
-            </NavLink>
-          )}
-          {user && (
-            <NavLink
               to={`/history/${user.email}`}
               onClick={() => setMenuOpen(false)}
-              className="block"
+              className="block hover:text-primary transition-colors duration-300"
             >
-              PaymentHistory
+              History
             </NavLink>
           )}
           {user && user.email === adminEmail && (
             <NavLink
               to="/dashboard"
               onClick={() => setMenuOpen(false)}
-              className="block"
+              className="block hover:text-primary transition-colors duration-300"
             >
-              AdminDashboard
+              Dashboard
+            </NavLink>
+          )}
+          {/* Mobile cart icon */}
+          {user && (
+            <NavLink
+              to={`/cart/${user.email}`}
+              onClick={() => setMenuOpen(false)}
+              className="block hover:text-primary transition-colors duration-300 flex items-center space-x-2"
+            >
+              <FaShoppingCart size={18} />
             </NavLink>
           )}
 
@@ -202,7 +244,7 @@ const Navbar = () => {
                     handleLogOut();
                     setMenuOpen(false);
                   }}
-                  className="btn btn-sm mt-3 bg-white text-black shadow-none w-full"
+                  className="btn btn-sm mt-3 bg-white text-black shadow-none w-full hover:bg-primary hover:text-white transition-colors duration-300"
                 >
                   LogOut
                 </button>
@@ -212,17 +254,17 @@ const Navbar = () => {
                 <Link
                   to="/login"
                   onClick={() => setMenuOpen(false)}
-                  className="btn btn-sm bg-white text-black shadow-none w-full"
+                  className="btn btn-sm bg-white text-black shadow-none w-full hover:text-primary transition-colors duration-300"
                 >
                   Login
                 </Link>
                 <div className="mt-2">
                   <Link
                     to="/register"
-                    className="btn btn-sm bg-white text-black shadow-none w-full"
+                    className="btn btn-sm bg-white text-black shadow-none w-full hover:text-primary transition-colors duration-300"
                   >
                     Register
-                  </Link>{" "}
+                  </Link>
                 </div>
               </>
             )}

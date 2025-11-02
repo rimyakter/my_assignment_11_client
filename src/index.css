@@ -5,8 +5,8 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #388e3c;
-  --color-secondary: #023047;
+  --color-primary: #81c408;
+  --color-secondary: #101010;
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
@@ -15,5 +15,5 @@
   font-family: "Roboto", sans-serif;
 }
 .nav .active {
-  border-bottom: 2px solid #fff;
+  color: #81c408;
 }

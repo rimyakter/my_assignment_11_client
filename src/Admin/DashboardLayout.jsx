@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
 import NavLogo from "../Header/NavLogo";
+import DashboardLogo from "./DashboardLogo";
 
 const DashboardLayout = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -69,8 +70,8 @@ const DashboardLayout = () => {
         } w-64`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <div className="font-bold text-xl bg-primary px-2 py-3 rounded-sm flex items-center gap-2">
-            <NavLogo />
+          <div className="">
+            <DashboardLogo></DashboardLogo>
           </div>
           <button
             onClick={() => setIsOpen(false)}

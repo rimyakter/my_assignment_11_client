@@ -14,37 +14,37 @@ export default function WhyChooseUs() {
     {
       title: "Smarter Sourcing",
       desc: "Source products from lakhs of verified suppliers with ease.",
-      icon: <FaChartLine size={30} />,
+      icon: <FaChartLine className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
     {
       title: "Wholesale Prices You’ll Love",
       desc: "Get exclusive wholesale rates across lakhs of products.",
-      icon: <FaTags size={30} />,
+      icon: <FaTags className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
     {
       title: "1000+ Premium Brands",
       desc: "Stock the products your customers want from World's most trusted brands.",
-      icon: <FaIndustry size={30} />,
+      icon: <FaIndustry className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
     {
       title: "Hassle-Free Returns",
       desc: "Easy, no-fuss returns on eligible items for peace of mind.",
-      icon: <FaUndo size={30} />,
+      icon: <FaUndo className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
     {
       title: "Fast & Reliable Delivery",
       desc: "From top cities across Bangladesh, directly to your shop & Home.",
-      icon: <FaTruck size={30} />,
+      icon: <FaTruck className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
     {
       title: "Business Credit",
       desc: "Grow your shop with flexible financing options.",
-      icon: <FaCreditCard size={30} />,
+      icon: <FaCreditCard className="text-white" size={30} />,
       color: "bg-white text-primary",
     },
   ];
@@ -56,7 +56,7 @@ export default function WhyChooseUs() {
   };
 
   return (
-    <section className="py-12 w-full bg-yellow-100">
+    <section className="py-12 w-full bg-gray-100">
       <h2 className="text-xl md:text-3xl font-bold my-6 text-center gap-3 flex items-center justify-center">
         <FaCheckCircle className="text-primary" /> Why Choose Us
       </h2>
@@ -76,7 +76,9 @@ export default function WhyChooseUs() {
             transition={{ delay: idx * 0.1, duration: 0.5 }}
             whileHover={{ scale: 1.05 }}
           >
-            <div className="p-3 bg-white rounded-full shadow-md">{f.icon}</div>
+            <div className="p-3 bg-primary rounded-full shadow-md">
+              {f.icon}
+            </div>
             <div>
               <h3 className="text-xl font-semibold">{f.title}</h3>
               <p className="text-sm mt-2">{f.desc}</p>

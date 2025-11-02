@@ -1,11 +1,11 @@
 import React from "react";
-import SwiperSlider from "./Home/swiperSlider";
 import CategoryList from "./ProductCategory/CategoryList";
 import WhyChooseUs from "./WhyChooseUs";
 import BlogPage from "./BlogPage";
 import { Helmet } from "@dr.pogodin/react-helmet";
 import TrustedPartners from "./Home/TrustedPartners";
 import Testimonials from "./Home/Testimonials";
+import HeroSection from "./Home/HeroSection";
 
 const Home = () => {
   return (
@@ -13,8 +13,8 @@ const Home = () => {
       <Helmet>
         <title>Wholesale Avenue || Home</title>
       </Helmet>
-      <div>
-        <SwiperSlider></SwiperSlider>
+      <div className="bg-white ">
+        <HeroSection></HeroSection>
       </div>
       <div>
         <CategoryList></CategoryList>
