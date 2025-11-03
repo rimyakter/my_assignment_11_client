@@ -9,13 +9,13 @@ const DashboardLogo = () => {
       <img
         src={icon}
         alt="Wholesale Avenue Icon"
-        className="w-8 h-12 md:w-10 md:h-12 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
+        className="w-8 h-11 md:w-10 md:h-12 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
       />
 
       {/* Logo Text */}
-      <span className="text-xl -ml-8 font-bold text-primary group-hover:text-primary/90 transition-colors duration-300">
-        <span className="inline-block tracking-[0.3em]">W</span>
-        <span className="text-secondary">holesale Avenue</span>
+      <span className="md:text-lg -ml-7 font-bold text-primary group-hover:text-primary/90 transition-colors duration-300">
+        <span className="inline-block tracking-[0.3em]"></span>
+        <span className="text-secondary">Wholesale Avenue</span>
       </span>
     </Link>
   );

@@ -9,13 +9,13 @@ const NavLogo = () => {
       <img
         src={icon}
         alt="Wholesale Avenue Icon"
-        className="w-12 h-13 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
+        className="w-10 md:w-12 h-13 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
       />
 
       {/* Logo Text */}
-      <span className="text-2xl -ml-10 font-extrabold text-primary group-hover:text-primary/90 transition-colors duration-300">
-        <span className="inline-block tracking-[0.3em]">W</span>
-        <span className="text-secondary">holesale Avenue</span>
+      <span className="text-lg md:text-2xl -ml-7 font-extrabold text-primary group-hover:text-primary/90 transition-colors duration-300">
+        <span className="inline-block tracking-[0.3em]"></span>
+        <span className="text-secondary">Wholesale Avenue</span>
       </span>
     </Link>
   );
