@@ -78,14 +78,14 @@ const HeroSection = () => {
           >
             <Link
               to="/categories"
-              className="bg-primary hover:bg-primary/90 transition-all px-3 py-2 sm:px-8 sm:py-3 text-white rounded-lg font-semibold flex items-center justify-center shadow-md"
+              className="border-2 border-primary bg-primary hover:bg-primary/90 transition-all px-3 py-2 sm:px-8 sm:py-3 text-white rounded-sm sm:rounded-lg font-semibold flex items-center justify-center shadow-sm"
             >
               Buy Now <FaShoppingCart className="ml-2 text-lg" />
             </Link>
 
             <Link
               to="/all-products"
-              className="border-2 border-primary text-primary hover:bg-gray-100 transition-all px-3 py-2 sm:px-8 sm:py-3 rounded-lg font-semibold flex items-center justify-center shadow-md"
+              className="border-2 border-primary text-primary hover:bg-gray-100 transition-all px-3 py-2 sm:px-8 sm:py-3 rounded-sm sm:rounded-lg font-semibold flex items-center justify-center shadow-sm"
             >
               Explore More <FaArrowRight className="ml-2 text-lg" />
             </Link>
