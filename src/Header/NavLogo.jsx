@@ -9,7 +9,7 @@ const NavLogo = () => {
       <img
         src={icon}
         alt="Wholesale Avenue Icon"
-        className="w-10 md:w-12 h-13 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
+        className="w-9 md:w-11 h-12 object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
       />
 
       {/* Logo Text */}
